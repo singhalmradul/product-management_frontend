@@ -12,7 +12,7 @@ import { addCategoryStart } from '../../store/category/category.slice';
 const AddCategory = () => {
 	const [category, setCategory] = useState<CategoryRequestObject>({
 		name: '',
-		unitPreference: 'kg',
+		unitPreference: 'KG',
 		images: [],
 		description: '',
 	});
@@ -40,8 +40,8 @@ const AddCategory = () => {
 				<TextInput label='Name' name='name' onChange={handleChange} />
 				<RadioChoice
 					label='Unit Preference'
-					choices={['kg', 'g']}
-					selectedChoice='kg'
+					choices={['KG', 'PCS', 'BOXES']}
+					selectedChoice='KG'
 					onChoiceChange={handleChange}
 					name='unitPreference'
 				/>

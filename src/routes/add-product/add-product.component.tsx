@@ -2,51 +2,57 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCateogries } from '../../store/category/category.selector';
 import { useEffect } from 'react';
 import { fetchCategoriesStart } from '../../store/category/category.slice';
+import TextInput from '../../components/text-input/text-input.component';
+import Form from '../../components/form/form.component';
+import WithHomeButton from '../../components/with-home-button/with-home-button.component';
+import FloatInput from '../../components/float-input/float-input.component';
+import { DimensionsContainer } from './add-product.styles';
+import TextArea from '../../components/text-area/text-area.component';
+import FileInput from '../../components/file-input/file-input.component';
+import RadioChoice from '../../components/radio-choice/radio-choice.component';
+import WithLabel from '../../components/with-label/with-label.component';
+import SelectOption from '../../components/select-option/select-option.component';
 
 const AddProduct = () => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(fetchCategoriesStart());
-    }, [dispatch]);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(fetchCategoriesStart());
+	}, [dispatch]);
 
-    const categories = useSelector(selectCateogries);
-    return (
-        <div>
-            <h1>Add Product</h1>
-            <form>
-                <label htmlFor='code'>Code</label>
-                <input type="text" placeholder='code' id='code' disabled />
-                <label htmlFor='name'>Name</label>
-                <input type="text" placeholder="name" id='name' />
-                <label htmlFor='weight'>Weight</label>
-                <input type="number" placeholder="weight" id='weight' />
-                <input type="radio" name="unit" value="kg" id='kg' defaultChecked /> <label htmlFor='kg'>kg</label>
-                <input type="radio" name="unit" value="g" id='g' /> <label htmlFor='g'>g</label>
-                <br />
-                Dimensions
-                <label htmlFor='length'>Length</label>
-                <input type="number" placeholder="length" id='length' /> inches
-                <br />
-                <label htmlFor='width'>Width</label>
-                <input type="number" placeholder="width" id='width' /> inches
-                <br />
-                <label htmlFor='height'>Height</label>
-                <input type="number" placeholder="height" id='height' /> inches
-                <br />
-                <label htmlFor='category'>Category</label>
-                <select id='category'>
-                    {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
-                </select>
-                {/* <label>Variations</label> */}
-                <label htmlFor='images'>Images</label>
-                <input type="file" multiple id='images' />
-                <label htmlFor='description'>Description</label>
-                <textarea id='description' />
-            </form>
-            <button>Add</button>
-            <button onClick={() => window.location.href = '/'}>Go Home</button>
-        </div>
-    );
+	const categories = useSelector(selectCateogries);
+	return (
+		<WithHomeButton>
+			<Form title='Add Product' buttonText='add' onSubmit={() => {}}>
+				<TextInput label='Code' name='code' placeholder='code' disabled />
+				<TextInput label='Name' name='name' placeholder='name' />
+				<RadioChoice
+					choices={['KG', 'G']}
+					label='Unit'
+					name='weight-unit'
+					onChoiceChange={() => {}}
+					selectedChoice='KG'
+					preChoiceElement={<FloatInput placeholder='Weight' name='weight' />}
+				/>
+				<WithLabel
+					label='Dimensions'
+					element={
+						<DimensionsContainer>
+							<FloatInput placeholder='Length' name='length' />
+							&times;
+							<FloatInput placeholder='Width' name='width' />
+							&times;
+							<FloatInput placeholder='Height' name='height' />
+						</DimensionsContainer>
+					}
+				/>
+				<label htmlFor='category'>Category</label>
+				<SelectOption options={categories} name='category' />
+				{/* <label>Variations</label> */}
+				<FileInput label='Images' name='images' onFileChange={() => {}} />
+				<TextArea label='Description' name='description' />
+			</Form>
+		</WithHomeButton>
+	);
 };
 
 export default AddProduct;
