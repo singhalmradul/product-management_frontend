@@ -11,8 +11,8 @@ export type AddCategoryStartAction = UnknownAction & {
 	payload: CategoryRequestObject;
 };
 
-const categoriesSlice = createSlice({
-	name: 'categories',
+const categorySlice = createSlice({
+	name: 'category',
 	initialState,
 	reducers: {
 		fetchCategoriesStart(state) {
@@ -49,6 +49,6 @@ export const {
 	addCategoryStart,
 	addCategorySuccess,
 	addCategoryFailure,
-} = categoriesSlice.actions;
+} = categorySlice.actions;
 
-export default categoriesSlice.reducer;
+export default categorySlice.reducer;

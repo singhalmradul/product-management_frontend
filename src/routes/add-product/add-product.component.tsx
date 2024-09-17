@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCateogries } from '../../store/category/category.selector';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchCategoriesStart } from '../../store/category/category.slice';
 import TextInput from '../../components/text-input/text-input.component';
 import Form from '../../components/form/form.component';
@@ -12,8 +12,33 @@ import FileInput from '../../components/file-input/file-input.component';
 import RadioChoice from '../../components/radio-choice/radio-choice.component';
 import WithLabel from '../../components/with-label/with-label.component';
 import SelectOption from '../../components/select-option/select-option.component';
+import { ProductRequestObject } from '../../store/product/product.types';
 
 const AddProduct = () => {
+
+	const [product, setProduct] = useState<ProductRequestObject>({
+		code: '',
+		name: '',
+		weight: 0,
+		dimensions: {
+			length: 0,
+			width: 0,
+			height: 0,
+		},
+		category: '',
+		images: [],
+		description: '',
+		unitPreference: 'KG',
+	});
+
+	const handleChange = (event: { target: { name: string; value: string } }) => {
+		const { name, value } = event.target;
+		if (name === 'weight') {
+			setProduct({ ...product, weight: parseFloat(value) });
+			return;
+		}
+		setProduct({ ...product, [name]: value });
+	}
 	const dispatch = useDispatch();
 	useEffect(() => {
 		dispatch(fetchCategoriesStart());
@@ -33,6 +58,13 @@ const AddProduct = () => {
 					selectedChoice='KG'
 					preChoiceElement={<FloatInput placeholder='Weight' name='weight' />}
 				/>
+				<RadioChoice
+					label='Unit Preference'
+					choices={['KG', 'PCS', 'BOXES']}
+					selectedChoice='KG'
+					onChoiceChange={handleChange}
+					name='unitPreference'
+				/>
 				<WithLabel
 					label='Dimensions'
 					element={
@@ -45,8 +77,10 @@ const AddProduct = () => {
 						</DimensionsContainer>
 					}
 				/>
-				<label htmlFor='category'>Category</label>
-				<SelectOption options={categories} name='category' />
+				<WithLabel
+					label='Category'
+					element={<SelectOption options={categories} name='category' />}
+				/>
 				{/* <label>Variations</label> */}
 				<FileInput label='Images' name='images' onFileChange={() => {}} />
 				<TextArea label='Description' name='description' />
