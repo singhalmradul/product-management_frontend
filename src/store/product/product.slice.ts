@@ -5,6 +5,7 @@ const initialState: ProductState = {
 	products: [],
 	isLoading: false,
 	error: null,
+	product: null,
 };
 
 export type AddProductStartAction = UnknownAction & {
@@ -33,6 +34,7 @@ const productSlice = createSlice({
 		},
 		addProductSuccess(state, action: { payload: Product }) {
 			state.isLoading = false;
+			state.product = action.payload;
 			state.products.push(action.payload);
 		},
 		addProductFailure(state, action: { payload: Error }) {

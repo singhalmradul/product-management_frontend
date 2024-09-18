@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { RootState } from '../store';
 
 const selectCategorySlice = (state: RootState) => state.category;
-export const selectCateogries = createSelector(
+export const selectCategories = createSelector(
 	[selectCategorySlice],
 	(slice) => slice.categories
 );

@@ -1,27 +1,27 @@
-import React from 'react';
-import {
-	DataList,
-	Option,
-	SearchContainer,
-	SearchInput,
-} from './select-option.styles';
+import { Select, SelectOptionContainer } from './select-option.styles';
 
-type SelectOptionProps = React.HTMLProps<HTMLInputElement> & {
-	options: { name: string }[];
-	name: string;
+type SelectOptionProps = Omit<
+	React.SelectHTMLAttributes<HTMLSelectElement>,
+	'children'
+> & {
+	options: any[];
+	field?: string;
 };
 
-const SelectOption = ({ options, name, ...inputProps }: SelectOptionProps) => {
+const SelectOption = ({ options, field, ...otherProps }: SelectOptionProps) => {
 	return (
-		<SearchContainer>
-			<SearchInput list={name} {...inputProps} />
-			<DataList id={name}>
-				<Option value='' />
-				{options.map((option, index) => (
-					<Option key={index} value={option.name} />
-				))}
-			</DataList>
-		</SearchContainer>
+		<SelectOptionContainer>
+			<Select {...otherProps}>
+				{options.map((option, index) => {
+					const value = field ? option[field] : option;
+					return (
+						<option key={index} value={value}>
+							{value}
+						</option>
+					);
+				})}
+			</Select>
+		</SelectOptionContainer>
 	);
 };
 

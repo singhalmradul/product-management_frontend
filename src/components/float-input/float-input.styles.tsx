@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FloatInputContainer = styled.input`
     border: 1px solid black;
     padding: 0.5rem;
-    font-size: 1rem;
+    font-size: 12px;
     width: 40px;
     margin: 0.5rem 0;
 
