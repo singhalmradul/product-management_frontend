@@ -7,7 +7,23 @@ export const selectCategories = createSelector(
 	(slice) => slice.categories
 );
 
-export const selectIsLoading = createSelector(
+export const selectCategoryIsLoading = createSelector(
 	[selectCategorySlice],
 	(slice) => slice.isLoading
+);
+
+export const selectCategoryError = createSelector(
+	[selectCategorySlice],
+	(slice) => slice.error
+);
+
+export const selectCategoryMap = createSelector(
+	[selectCategories],
+	(categories) => {
+		const categoryMap = new Map<string, string>();
+		for (const category of categories) {
+			categoryMap.set(category.id, category.name);
+		}
+		return categoryMap;
+	}
 );

@@ -1,3 +1,5 @@
+import Category from '../category/category.types';
+
 type Product = {
 	id: string;
 	code: string;
@@ -7,11 +9,12 @@ type Product = {
 		height: number | null;
 	};
 	weight: number | null;
+	weightString: string | null;
 	name: string;
 	unitPreference: string;
 	images: string[];
 	description: string | null;
-	categories: string[];
+	categories: Category[];
 };
 
 export type ProductRequestObject = {
@@ -26,7 +29,11 @@ export type ProductRequestObject = {
 	unitPreference: string;
 	images: File[];
 	description: string | null;
-	categories: string[];
+	categories: ProductRequestCategoryObject[];
+};
+
+export type ProductRequestCategoryObject = {
+	id: string;
 };
 
 export type ProductState = {

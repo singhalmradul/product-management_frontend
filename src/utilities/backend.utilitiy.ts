@@ -34,6 +34,11 @@ export const fetchAllProducts = async () => {
 	return response.data;
 };
 
+export const fetchProductById = async (id: string) => {
+	const response = await axios.get<Product>(`${productsUrl}/${id}`);
+	return response.data;
+};
+
 export const addProduct = async (product: ProductRequestObject) => {
 	const response = await axios.post<Product>(productsUrl, {
 		...product,

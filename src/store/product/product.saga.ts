@@ -2,27 +2,33 @@ import { call, put, takeLatest, all } from 'typed-redux-saga/macro';
 import {
 	addProduct,
 	fetchAllProducts,
+	fetchProductById,
 } from '../../utilities/backend.utilitiy';
 import {
 	addProductFailure,
 	addProductStart,
 	AddProductStartAction,
 	addProductSuccess,
-	fetchCProductsFailure,
+	fetchProductFailure,
+	fetchProductsFailure,
 	fetchProductsStart,
 	fetchProductsSuccess,
+	fetchProductStart,
+	FetchProductStartAction,
+	fetchProductSuccess,
 } from './product.slice';
 
-const fetchProductAsync = function* () {
+const fetchProductsAsync = function* () {
 	try {
-		const categories = yield* call(fetchAllProducts);
-		yield put(fetchProductsSuccess(categories));
+		const products = yield* call(fetchAllProducts);
+		yield put(fetchProductsSuccess(products));
 	} catch (error) {
-		yield put(fetchCProductsFailure(error as Error));
+		yield put(fetchProductsFailure(error as Error));
 	}
 };
 
-const addCategoryAsync = function* ({ payload }: AddProductStartAction) {
+const addProductAsync = function* ({ payload }: AddProductStartAction) {
+	console.log('product', payload);
 	try {
 		const product = yield* call(addProduct, payload);
 		yield put(addProductSuccess(product));
@@ -31,16 +37,29 @@ const addCategoryAsync = function* ({ payload }: AddProductStartAction) {
 	}
 };
 
+const fetchProductAsync = function* ({ payload: id }: FetchProductStartAction) {
+	try {
+		const product = yield* call(fetchProductById, id);
+		yield put(fetchProductSuccess(product));
+	} catch (error) {
+		yield put(fetchProductFailure(error as Error));
+	}
+};
+
 const onFetchProducts = function* () {
-	yield* takeLatest(fetchProductsStart.type, fetchProductAsync);
+	yield* takeLatest(fetchProductsStart.type, fetchProductsAsync);
 };
 
 const onAddProduct = function* () {
-	yield* takeLatest(addProductStart.type, addCategoryAsync);
+	yield* takeLatest(addProductStart.type, addProductAsync);
+};
+
+const onFetchProduct = function* () {
+	yield* takeLatest(fetchProductStart.type, fetchProductAsync);
 };
 
 const productSaga = function* () {
-	yield* all([call(onFetchProducts), call(onAddProduct)]);
+	yield* all([call(onFetchProducts), call(onAddProduct), call(onFetchProduct)]);
 };
 
 export default productSaga;

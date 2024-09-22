@@ -24,7 +24,6 @@ const fetchCategoriesAsync = function* () {
 
 const addCategoryAsync = function* ({ payload }: AddCategoryStartAction) {
 	try {
-		console.log(payload)
 		const category = yield* call(addCategory, payload);
 		yield put(addCategorySuccess(category));
 	} catch (error) {
