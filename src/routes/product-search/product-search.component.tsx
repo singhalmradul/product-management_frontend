@@ -1,51 +1,48 @@
-import { useState, useEffect, useCallback } from 'react';
-import debounce from 'lodash.debounce';
-import Product from '../../store/product/product.types';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectProducts } from '../../store/product/product.selector';
+import { searchProductsStart } from '../../store/product/product.slice';
+import {
+	ProductSearchContainer,
+	SearchInput,
+	SearchResult,
+	SearchResults,
+} from './product-search.styles';
+import { Link } from 'react-router-dom';
 
 const ProductSearch = () => {
 	const [query, setQuery] = useState('');
-	const [products, setProducts] = useState<Product[]>([]);
+	const products = useSelector(selectProducts);
+	const dispatch = useDispatch();
 
-	const fetchProducts = async (searchTerm: string) => {
-		if (!searchTerm.trim()) return;
-
-		try {
-			const response = await fetch(
-				`http://localhost:8080/api/v1/products/search?query=${searchTerm}`
-			);
-			const data = await response.json();
-			setProducts(data);
-		} catch (error) {
-			console.error('Error fetching products:', error);
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value;
+		setQuery(value);
+		if (value.trim()) {
+			dispatch(searchProductsStart(value));
 		}
 	};
-	const debouncedSearch = useCallback(debounce(fetchProducts, 1000), []); // eslint-disable-line react-hooks/exhaustive-deps
-
-	useEffect(() => {
-		debouncedSearch(query);
-
-		return () => {
-			debouncedSearch.cancel();
-		};
-	}, [query]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
-		<div>
-			<input
+		<ProductSearchContainer>
+			<SearchInput
 				type='text'
 				value={query}
-				onChange={(e) => setQuery(e.target.value)}
+				onChange={handleChange}
 				placeholder='Search products...'
+				className='search-input'
 			/>
 
-			<ul>
+			<SearchResults className='search-results'>
 				{products.map((product) => (
-					<li key={product.id}>
-						{product.name} - {product.code} - {product.weightString}
-					</li>
+					<Link to={`/view/product/${product.id}`} key={product.id}>
+						<SearchResult key={product.id} className='search-result'>
+							{product.name} - {product.code} - {product.weightString}
+						</SearchResult>
+					</Link>
 				))}
-			</ul>
-		</div>
+			</SearchResults>
+		</ProductSearchContainer>
 	);
 };
 

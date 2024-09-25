@@ -1,8 +1,9 @@
-import { call, put, takeLatest, all } from 'typed-redux-saga/macro';
+import { call, put, takeLatest, all, debounce } from 'typed-redux-saga/macro';
 import {
 	addProduct,
 	fetchAllProducts,
 	fetchProductById,
+	searchProducts,
 } from '../../utilities/backend.utilitiy';
 import {
 	addProductFailure,
@@ -16,8 +17,11 @@ import {
 	fetchProductStart,
 	FetchProductStartAction,
 	fetchProductSuccess,
+	searchProductsStart,
+	SearchProductsStartAction,
 } from './product.slice';
 
+// MARK: Workers
 const fetchProductsAsync = function* () {
 	try {
 		const products = yield* call(fetchAllProducts);
@@ -28,7 +32,6 @@ const fetchProductsAsync = function* () {
 };
 
 const addProductAsync = function* ({ payload }: AddProductStartAction) {
-	console.log('product', payload);
 	try {
 		const product = yield* call(addProduct, payload);
 		yield put(addProductSuccess(product));
@@ -46,20 +49,42 @@ const fetchProductAsync = function* ({ payload: id }: FetchProductStartAction) {
 	}
 };
 
+const searchProductsAsync = function* ({
+	payload: query,
+}: SearchProductsStartAction) {
+	try {
+		const products = yield* call(searchProducts, query);
+		yield put(fetchProductsSuccess(products));
+	} catch (error) {
+		yield put(fetchProductsFailure(error as Error));
+	}
+};
+
+// MARK: Observers
 const onFetchProducts = function* () {
-	yield* takeLatest(fetchProductsStart.type, fetchProductsAsync);
+	yield* takeLatest(fetchProductsStart, fetchProductsAsync);
 };
 
 const onAddProduct = function* () {
-	yield* takeLatest(addProductStart.type, addProductAsync);
+	yield* takeLatest(addProductStart, addProductAsync);
 };
 
 const onFetchProduct = function* () {
-	yield* takeLatest(fetchProductStart.type, fetchProductAsync);
+	yield* takeLatest(fetchProductStart, fetchProductAsync);
 };
 
+const onSearchProducts = function* () {
+	yield* debounce(1000, searchProductsStart, searchProductsAsync);
+};
+
+// MARK: Saga
 const productSaga = function* () {
-	yield* all([call(onFetchProducts), call(onAddProduct), call(onFetchProduct)]);
+	yield* all([
+		call(onFetchProducts),
+		call(onAddProduct),
+		call(onFetchProduct),
+		call(onSearchProducts),
+	]);
 };
 
 export default productSaga;

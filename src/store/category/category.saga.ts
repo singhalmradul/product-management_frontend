@@ -32,11 +32,11 @@ const addCategoryAsync = function* ({ payload }: AddCategoryStartAction) {
 };
 
 const onFetchCategories = function* () {
-	yield* takeLatest(fetchCategoriesStart.type, fetchCategoriesAsync);
+	yield* takeLatest(fetchCategoriesStart, fetchCategoriesAsync);
 };
 
 const onAddCategory = function* () {
-	yield* takeLatest(addCategoryStart.type, addCategoryAsync);
+	yield* takeLatest(addCategoryStart, addCategoryAsync);
 };
 
 const categorySaga = function* () {

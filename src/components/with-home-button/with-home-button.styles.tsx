@@ -12,6 +12,11 @@ export const WithHomeButtonContainer = styled.div`
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
+
+    @media (max-width: 360px) {
+        padding: 10px;
+        gap: 10px;
+    }
 `;
 
 export const HomeButton = styled(Link)`
@@ -21,4 +26,8 @@ export const HomeButton = styled(Link)`
     background-color: #007bff;
     color: white;
     cursor: pointer;
+
+    @media (max-width: 360px) {
+        padding: 8px 16px;
+    }
 `;

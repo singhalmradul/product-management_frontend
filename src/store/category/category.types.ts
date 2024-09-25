@@ -1,22 +1,24 @@
+import { QuantityUnit } from '../types';
+
 type Category = {
 	id: string;
 	name: string;
-	unitPreference: string;
+	unitPreference: QuantityUnit;
 	images: string[];
 	description: string;
 };
 
 export type CategoryRequestObject = {
     name: string;
-    unitPreference: string;
+    unitPreference: QuantityUnit;
     images: File[];
     description: string;
 };
 
 export type CategoryState = {
-	categories: Category[];
-	isLoading: boolean;
-	error: Error | null;
+	readonly categories: Category[];
+	readonly isLoading: boolean;
+	readonly error: Error | null;
 };
 
 export default Category;

@@ -4,9 +4,10 @@ import Category, {
 } from '../store/category/category.types';
 import Product, { ProductRequestObject } from '../store/product/product.types';
 
-const API_URL = 'http://localhost:8080/api/v1';
+const BACKEND_URL =
+	process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080/api/v1';
 
-const url = (path: string) => `${API_URL}/${path}`;
+const url = (path: string) => `${BACKEND_URL}/${path}`;
 const categoriesUrl = url('categories');
 const productsUrl = url('products');
 
@@ -15,7 +16,9 @@ export const fetchAllCategories = async () => {
 	return response.data;
 };
 
-export const addCategory = async (category: CategoryRequestObject) => {
+export const addCategory = async (
+	category: CategoryRequestObject
+): Promise<Category> => {
 	const response = await axios.post<Category>(categoriesUrl, {
 		...category,
 		images: [],
@@ -39,7 +42,9 @@ export const fetchProductById = async (id: string) => {
 	return response.data;
 };
 
-export const addProduct = async (product: ProductRequestObject) => {
+export const addProduct = async (
+	product: ProductRequestObject
+): Promise<Product> => {
 	const response = await axios.post<Product>(productsUrl, {
 		...product,
 		images: [],
@@ -51,4 +56,11 @@ export const addProduct = async (product: ProductRequestObject) => {
 		formData
 	);
 	return { ...response.data, images: imageResponse.data };
+};
+
+export const searchProducts = async (query: string) => {
+	const response = await axios.get<Product[]>(
+		`${productsUrl}/search?query=${query}`
+	);
+	return response.data;
 };

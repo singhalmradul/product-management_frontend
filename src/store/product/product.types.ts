@@ -1,4 +1,5 @@
 import Category from '../category/category.types';
+import { QuantityUnit } from '../types';
 
 type Product = {
 	id: string;
@@ -11,7 +12,7 @@ type Product = {
 	weight: number | null;
 	weightString: string | null;
 	name: string;
-	unitPreference: string;
+	unitPreference: QuantityUnit;
 	images: string[];
 	description: string | null;
 	categories: Category[];
@@ -26,7 +27,7 @@ export type ProductRequestObject = {
 	};
 	weight: number | null;
 	name: string;
-	unitPreference: string;
+	unitPreference: QuantityUnit;
 	images: File[];
 	description: string | null;
 	categories: ProductRequestCategoryObject[];
@@ -37,10 +38,10 @@ export type ProductRequestCategoryObject = {
 };
 
 export type ProductState = {
-	products: Product[];
-	isLoading: boolean;
-	error: Error | null;
-	product: Product | null;
+	readonly products: Product[];
+	readonly isLoading: boolean;
+	readonly error: Error | null;
+	readonly product: Product | null;
 };
 
 export default Product;

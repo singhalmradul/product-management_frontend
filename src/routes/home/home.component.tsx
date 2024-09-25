@@ -9,6 +9,8 @@ const Home = () => {
 			<Link to='/add/category'>add category</Link>
 			<br />
 			<Link to='/view/products'>view products</Link>
+			<br />
+			<Link to='/features/scan'>scan</Link>
 		</div>
 	);
 };

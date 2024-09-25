@@ -1,24 +1,35 @@
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { QuantityUnit, WeightUnit } from '../../store/types';
+import { ProductRequestObject } from '../../store/product/product.types';
+
+import { fetchCategoriesStart } from '../../store/category/category.slice';
+import { addProductStart } from '../../store/product/product.slice';
+
 import {
 	selectCategories,
 	selectCategoryMap,
 } from '../../store/category/category.selector';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { fetchCategoriesStart } from '../../store/category/category.slice';
+import { selectProductIsLoading } from '../../store/product/product.selector';
+
 import TextInput from '../../components/text-input/text-input.component';
 import Form from '../../components/form/form.component';
 import WithHomeButton from '../../components/with-home-button/with-home-button.component';
-import FloatInput from '../../components/float-input/float-input.component';
-import { DimensionsContainer } from './add-product.styles';
+import NumberInput from '../../components/number-input/number-input.component';
 import TextArea from '../../components/text-area/text-area.component';
 import FileInput from '../../components/file-input/file-input.component';
 import RadioChoice from '../../components/radio-choice/radio-choice.component';
 import WithLabel from '../../components/with-label/with-label.component';
-import { ProductRequestObject } from '../../store/product/product.types';
-import { addProductStart } from '../../store/product/product.slice';
 import SelectOption from '../../components/select-option/select-option.component';
-import { selectProductIsLoading } from '../../store/product/product.selector';
 import Spinner from '../../components/spinner/spinner.component';
+
+import {
+	Checkbox,
+	CheckboxContainer,
+	CheckboxLabel,
+	DimensionsContainer,
+} from './add-product.styles';
 
 const AddProduct = () => {
 	const INITIAL_PRODUCT_STATE: ProductRequestObject = {
@@ -33,18 +44,18 @@ const AddProduct = () => {
 		categories: [],
 		images: [],
 		description: null,
-		unitPreference: 'KG',
+		unitPreference: QuantityUnit.KG,
 	};
 
 	// MARK: State
 	const [modifyCodeEnabled, setModifyCodeEnabled] = useState(false);
 
+	const [product, setProduct] = useState(INITIAL_PRODUCT_STATE);
+
 	const [weight, setWeight] = useState({
 		value: 0,
-		unit: 'KG',
+		unit: WeightUnit.KG,
 	});
-
-	const [product, setProduct] = useState(INITIAL_PRODUCT_STATE);
 
 	const dispatch = useDispatch();
 
@@ -56,8 +67,7 @@ const AddProduct = () => {
 	// MARK: Effects
 	useEffect(() => {
 		dispatch(fetchCategoriesStart());
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		setProduct((prevProduct) => ({
@@ -166,16 +176,17 @@ const AddProduct = () => {
 					placeholder='code'
 					disabled={!modifyCodeEnabled}
 					onChange={handleChange}
+					onFocus={(e) => e.target.select()}
 					value={product.code}
 				/>
-				<div>
-					<input
+				<CheckboxContainer>
+					<Checkbox
 						type='checkbox'
 						onChange={handleModifyCodeChange}
 						id='modify-code'
 					/>
-					<label htmlFor='modify-code'>Modify code</label>
-				</div>
+					<CheckboxLabel htmlFor='modify-code'>Modify code</CheckboxLabel>
+				</CheckboxContainer>
 				<TextInput
 					label='Name'
 					name='name'
@@ -184,43 +195,34 @@ const AddProduct = () => {
 					value={product.name}
 				/>
 				<RadioChoice
-					choices={['KG', 'G']}
+					choices={[WeightUnit.KG, WeightUnit.G]}
 					label='Weight Unit'
 					name='unit'
 					onChoiceChange={handleWeightChange}
 					selectedChoice={weight.unit}
 					preChoiceElement={
-						<FloatInput
+						<NumberInput
 							placeholder='Weight'
 							name='value'
 							onChange={handleWeightChange}
 						/>
 					}
 				/>
-				<RadioChoice
-					label='Unit Preference'
-					choices={['KG', 'PCS', 'BOXES']}
-					selectedChoice={product.unitPreference}
-					onChoiceChange={handleChange}
-					name='unitPreference'
-				/>
 				<WithLabel
 					label='Dimensions'
 					element={
 						<DimensionsContainer>
-							<FloatInput
+							<NumberInput
 								placeholder='Length'
 								name='length'
 								onChange={handleDimensionsChange}
 							/>
-							&times;
-							<FloatInput
+							<NumberInput
 								placeholder='Width'
 								name='width'
 								onChange={handleDimensionsChange}
 							/>
-							&times;
-							<FloatInput
+							<NumberInput
 								placeholder='Height'
 								name='height'
 								onChange={handleDimensionsChange}
@@ -240,6 +242,13 @@ const AddProduct = () => {
 							multiple
 						/>
 					}
+				/>
+				<RadioChoice
+					label='Unit Preference'
+					choices={[QuantityUnit.KG, QuantityUnit.PCS, QuantityUnit.BOXES]}
+					selectedChoice={product.unitPreference}
+					onChoiceChange={handleChange}
+					name='unitPreference'
 				/>
 				<FileInput
 					label='Images'

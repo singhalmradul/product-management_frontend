@@ -9,10 +9,16 @@ export const Label = styled.label`
     border: 1px solid #ccc;
     border-radius: 4px;
     cursor: pointer;
-    margin-right: 10px;
+    // margin-right: 10px;
     background-color: #f9f9f9;
     &:hover {
         background-color: #f0f0f0;
+    }
+
+    @media (max-width: 360px) {
+        padding: 8px;
+        // margin-right: 8px;
+        font-size: 14px;
     }
 `;
 
@@ -21,4 +27,8 @@ export const FileInputContainer = styled.div`
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
+
+    @media (max-width: 360px) {
+        margin-bottom: 15px;
+    }
 `;

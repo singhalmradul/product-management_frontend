@@ -16,11 +16,16 @@ export type FetchProductStartAction = UnknownAction & {
 	payload: string;
 };
 
+export type SearchProductsStartAction = UnknownAction & {
+	payload: string;
+};
+
 const productSlice = createSlice({
 	name: 'product',
 	initialState,
 	reducers: {
 		fetchProductsStart(state) {
+			state.products = [];
 			state.isLoading = true;
 			state.error = null;
 		},
@@ -33,9 +38,9 @@ const productSlice = createSlice({
 			state.error = action.payload;
 		},
 		addProductStart(state, action: AddProductStartAction) {
+			state.product = null;
 			state.isLoading = true;
 			state.error = null;
-			state.product = null;
 		},
 		addProductSuccess(state, action: { payload: Product }) {
 			state.isLoading = false;
@@ -47,15 +52,28 @@ const productSlice = createSlice({
 			state.error = action.payload;
 		},
 		fetchProductStart(state, action: FetchProductStartAction) {
+			state.product = null;
 			state.isLoading = true;
 			state.error = null;
-			state.product = null;
 		},
 		fetchProductSuccess(state, action: { payload: Product }) {
 			state.isLoading = false;
 			state.product = action.payload;
 		},
 		fetchProductFailure(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
+		searchProductsStart(state, action: SearchProductsStartAction) {
+			state.products = [];
+			state.isLoading = true;
+			state.error = null;
+		},
+		searchProductsSuccess(state, action: { payload: Product[] }) {
+			state.isLoading = false;
+			state.products = action.payload;
+		},
+		searchProductsFailure(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -72,6 +90,9 @@ export const {
 	fetchProductStart,
 	fetchProductSuccess,
 	fetchProductFailure,
+	searchProductsStart,
+	searchProductsSuccess,
+	searchProductsFailure,
 } = productSlice.actions;
 
 export default productSlice.reducer;
