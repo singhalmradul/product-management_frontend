@@ -8,11 +8,13 @@ import WithHomeButton from '../../components/with-home-button/with-home-button.c
 import { CategoryRequestObject } from '../../store/category/category.types';
 import { useDispatch } from 'react-redux';
 import { addCategoryStart } from '../../store/category/category.slice';
+import { QuantityUnit } from '../../store/types';
 
 const AddCategory = () => {
+
 	const [category, setCategory] = useState<CategoryRequestObject>({
 		name: '',
-		unitPreference: 'KG',
+		unitPreference: QuantityUnit.KG,
 		images: [],
 		description: '',
 	});
@@ -40,8 +42,8 @@ const AddCategory = () => {
 				<TextInput label='Name' name='name' onChange={handleChange} />
 				<RadioChoice
 					label='Unit Preference'
-					choices={['KG', 'PCS', 'BOXES']}
-					selectedChoice='KG'
+					choices={[QuantityUnit.KG, QuantityUnit.PCS, QuantityUnit.BOXES]}
+					selectedChoice={QuantityUnit.KG}
 					onChoiceChange={handleChange}
 					name='unitPreference'
 				/>

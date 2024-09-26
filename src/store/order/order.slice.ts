@@ -4,24 +4,22 @@ import { QuantityUnit } from '../types';
 
 // MARK: - Initial State
 const initialState: OrderState = {
+	merchant: '',
+	date: new Date().toISOString().split('T')[0],
 	products: [],
 	isLoading: false,
 	error: null,
 };
 
 // MARK: - Helper Functions
-export type AddProductStartAction = UnknownAction & {
-	payload: string;
-};
-
-const filterProduct = (state: OrderState, id: string) =>
-	state.products.filter((orderProduct) => orderProduct.product.id !== id);
+const filterProduct = (products: OrderProduct[], id: string) =>
+	products.filter((orderProduct) => orderProduct.product.id !== id);
 
 const modifyAmount = (
-	state: OrderState,
+	products: OrderProduct[],
 	{ id, amount }: { id: string; amount: number }
 ) =>
-	state.products.map((orderProduct) =>
+	products.map((orderProduct) =>
 		orderProduct.product.id === id
 			? {
 					...orderProduct,
@@ -31,10 +29,10 @@ const modifyAmount = (
 	);
 
 const modifyUnit = (
-	state: OrderState,
+	products: OrderProduct[],
 	{ id, unit }: { id: string; unit: QuantityUnit }
 ) =>
-	state.products.map((orderProduct) =>
+	products.map((orderProduct) =>
 		orderProduct.product.id === id
 			? {
 					...orderProduct,
@@ -43,11 +41,30 @@ const modifyUnit = (
 			: orderProduct
 	);
 
+// MARK: - Types
+export type AddProductStartAction = UnknownAction & {
+	payload: string;
+};
+
+type ModifyQuantityAmountAction = UnknownAction & {
+	payload: { id: string; amount: number };
+};
+
+type ModifyQuantityUnitAction = UnknownAction & {
+	payload: { id: string; unit: QuantityUnit };
+};
+
 // MARK: - Slice
 const orderSlice = createSlice({
 	name: 'product',
 	initialState,
 	reducers: {
+		setMerchant(state, action: { payload: string }) {
+			state.merchant = action.payload;
+		},
+		setDate(state, action: { payload: string }) {
+			state.date = action.payload;
+		},
 		addProductStart(state, action: AddProductStartAction) {
 			state.isLoading = true;
 			state.error = null;
@@ -61,25 +78,21 @@ const orderSlice = createSlice({
 			state.error = action.payload;
 		},
 		removeProduct(state, action: { payload: string }) {
-			state.products = filterProduct(state, action.payload);
+			state.products = filterProduct(state.products, action.payload);
 		},
-		modifyQuantityAmount(
-			state,
-			action: { payload: { id: string; amount: number } }
-		) {
-			state.products = modifyAmount(state, action.payload);
+		modifyQuantityAmount(state, action: ModifyQuantityAmountAction) {
+			state.products = modifyAmount(state.products, action.payload);
 		},
-		modifyQuantityUnit(
-			state,
-			action: { payload: { id: string; unit: QuantityUnit } }
-		) {
-			state.products = modifyUnit(state, action.payload);
+		modifyQuantityUnit(state, action: ModifyQuantityUnitAction) {
+			state.products = modifyUnit(state.products, action.payload);
 		},
 	},
 });
 
 // MARK: - Actions
 export const {
+	setMerchant,
+	setDate,
 	addProductStart,
 	addProductSuccess,
 	addProductFailure,

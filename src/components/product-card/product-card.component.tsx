@@ -1,16 +1,20 @@
 import { ChangeEvent, useCallback } from 'react';
-import { OrderProduct } from '../../store/order/order.types';
-import Button from '../button/button.component';
-import NumberInput from '../number-input/number-input.component';
-import RadioChoice from '../radio-choice/radio-choice.component';
 import { useDispatch } from 'react-redux';
+
+import debounce from 'lodash.debounce';
+
+import { QuantityUnit } from '../../store/types';
+import { OrderProduct } from '../../store/order/order.types';
+
 import {
 	modifyQuantityAmount,
 	modifyQuantityUnit,
 	removeProduct,
 } from '../../store/order/order.slice';
-import { QuantityUnit } from '../../store/types';
-import debounce from 'lodash.debounce';
+
+import Button from '../button/button.component';
+import NumberInput from '../number-input/number-input.component';
+import RadioChoice from '../radio-choice/radio-choice.component';
 
 type ProductCardProps = {
 	orderProduct: OrderProduct;

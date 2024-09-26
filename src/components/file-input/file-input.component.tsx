@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-	FileInputContainer,
-	Input,
-	Label,
-} from './file-input.styles';
+import { FileInputContainer, Input, Label } from './file-input.styles';
 import { snakeCase } from '../../utilities/helper.utility';
 import ImagePreview from '../image-preview/image-preview.component';
 
@@ -33,7 +29,7 @@ const FileInput = ({ label, onFileChange, ...otherProps }: FileInutProps) => {
 	return (
 		<FileInputContainer>
 			<Label htmlFor={id}>{label}</Label>
-			<ImagePreview images={preview} />
+			{preview.length > 0 && <ImagePreview images={preview} />}
 			<Input
 				type='file'
 				id={id}

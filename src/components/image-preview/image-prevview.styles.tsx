@@ -9,6 +9,12 @@ export const ImagePreviewContainer = styled.div`
 	flex-direction: row;
 	align-items: center;
 	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid var(--border-color, #ccc);
+	border-radius: 4px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	background-color: var(--background-color, #fff);
+	transition: box-shadow 0.3s ease;
 
 	&::-webkit-scrollbar {
 		height: 4px; /* Adjust the height of the scrollbar */
@@ -16,7 +22,6 @@ export const ImagePreviewContainer = styled.div`
 
 	&::-webkit-scrollbar-track {
 		background: none; /* Background color of the scrollbar track */
-		// border-radius: 10px; /* Rounded corners for the track */
 	}
 
 	&::-webkit-scrollbar-thumb {
@@ -31,10 +36,15 @@ export const ImagePreviewContainer = styled.div`
 
 export const ImageContainer = styled.img`
 	scroll-snap-align: start;
-	padding: 20px 30px;
+	padding: var(--image-padding, 20px 30px);
 	flex-shrink: 0;
 	margin-right: 10px;
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+	transition: transform 0.3s ease;
+
+	&:hover {
+		transform: scale(1.05);
+	}
 `;

@@ -32,16 +32,22 @@ const ProductSearch = () => {
 				placeholder='Search products...'
 				className='search-input'
 			/>
-
-			<SearchResults className='search-results'>
-				{products.map((product) => (
-					<Link to={`/view/product/${product.id}`} key={product.id}>
-						<SearchResult key={product.id} className='search-result'>
-							{product.name} - {product.code} - {product.weightString}
-						</SearchResult>
-					</Link>
-				))}
-			</SearchResults>
+			{products.length > 0 && (
+				<SearchResults className='search-results'>
+					{products.map((product) => (
+						<Link to={`/view/product/${product.id}`} key={product.id}>
+							<SearchResult key={product.id} className='search-result'>
+								{product.name} - {product.code} - {product.weightString}
+							</SearchResult>
+						</Link>
+					))}
+				</SearchResults>
+			)}
+			{products.length === 0 && query.trim().length > 3 && (
+				<p>
+					No products found for "{query}". <br /> Please try another
+				</p>
+			)}
 		</ProductSearchContainer>
 	);
 };

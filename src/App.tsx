@@ -4,7 +4,7 @@ import AddProduct from './routes/add-product/add-product.component';
 import AddCategory from './routes/add-category/add-category.component';
 import ProductDetails from './routes/product-details/product-details.component';
 import ProductSearch from './routes/product-search/product-search.component';
-import QrOrderGenerator from './routes/add-product/qr-order-generator/qr-order-generator.component';
+import QrOrderGenerator from './routes/qr-order-generator/qr-order-generator.component';
 
 const App = () => {
 	return (

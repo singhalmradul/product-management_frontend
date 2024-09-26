@@ -7,9 +7,9 @@ export const Input = styled.input`
 export const Label = styled.label`
     padding: 10px;
     border: 1px solid #ccc;
+    margin-bottom: 20px;
     border-radius: 4px;
     cursor: pointer;
-    // margin-right: 10px;
     background-color: #f9f9f9;
     &:hover {
         background-color: #f0f0f0;
@@ -17,7 +17,6 @@ export const Label = styled.label`
 
     @media (max-width: 360px) {
         padding: 8px;
-        // margin-right: 8px;
         font-size: 14px;
     }
 `;

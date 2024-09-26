@@ -42,7 +42,7 @@ const AddProduct = () => {
 			height: null,
 		},
 		categories: [],
-		images: [],
+		newImages: [],
 		description: null,
 		unitPreference: QuantityUnit.KG,
 	};
@@ -131,7 +131,7 @@ const AddProduct = () => {
 	};
 
 	const handleFileChange = (files: File[]) => {
-		setProduct({ ...product, images: files });
+		setProduct({ ...product, newImages: files });
 	};
 
 	const handleSubmit = () => {
