@@ -51,15 +51,11 @@ const ProductCard = ({
 			<h3 className='product-info'>
 				{name} ({code})
 			</h3>
-			<NumberInput
-				placeholder='quantity'
-				onChange={handleQuantityChange}
-				value={quantity.amount}
-			/>
+			<NumberInput placeholder='quantity' onChange={handleQuantityChange} />
 			<RadioChoice
 				choices={[QuantityUnit.KG, QuantityUnit.PCS, QuantityUnit.BOXES]}
 				label='Unit'
-				name='unit'
+				name={`unit_${id}`}
 				selectedChoice={unitPreference}
 				onChoiceChange={handleUnitChange}
 			/>

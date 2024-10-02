@@ -38,13 +38,7 @@ export const ImageContainer = styled.img`
 	scroll-snap-align: start;
 	padding: 20px 30px;
 	flex-shrink: 0;
-	margin-right: 10px;
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
-	transition: transform 0.3s ease;
-
-	&:hover {
-		transform: scale(1.05);
-	}
 `;

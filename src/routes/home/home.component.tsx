@@ -1,17 +1,24 @@
 import { Link } from 'react-router-dom';
+import Button from '../../components/button/button.component';
+import { HomeContainer, HomeTitle } from './home.styles';
 
 const Home = () => {
 	return (
-		<div>
-			<h1>Home</h1>
-			<Link to='/add/product'>add product</Link>
-			<br />
-			<Link to='/add/category'>add category</Link>
-			<br />
-			<Link to='/view/products'>view products</Link>
-			<br />
-			<Link to='/features/scan'>scan</Link>
-		</div>
+		<HomeContainer>
+			<HomeTitle>Home</HomeTitle>
+			<Link to='/add/product'>
+				<Button>add product</Button>
+			</Link>
+			<Link to='/add/category'>
+				<Button>add category</Button>
+			</Link>
+			<Link to='/view/products'>
+				<Button>view products</Button>
+			</Link>
+			<Link to='/features/scan'>
+				<Button>scan</Button>
+			</Link>
+		</HomeContainer>
 	);
 };
 

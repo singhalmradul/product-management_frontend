@@ -26,7 +26,7 @@ const RadioChoice = <T extends string>({
 				{preChoiceElement}
 				{choices.map((choice) => {
 					const id = `${snakeCase(label)}_${snakeCase(choice)}_${randomId()}`;
-
+					console.log('id', id);
 					return (
 						<div key={choice}>
 							<Input

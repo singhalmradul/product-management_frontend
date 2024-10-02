@@ -56,7 +56,7 @@ type ModifyQuantityUnitAction = UnknownAction & {
 
 // MARK: - Slice
 const orderSlice = createSlice({
-	name: 'product',
+	name: 'order',
 	initialState,
 	reducers: {
 		setMerchant(state, action: { payload: string }) {

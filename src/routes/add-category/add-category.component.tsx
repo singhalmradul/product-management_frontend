@@ -4,7 +4,6 @@ import Form from '../../components/form/form.component';
 import RadioChoice from '../../components/radio-choice/radio-choice.component';
 import TextArea from '../../components/text-area/text-area.component';
 import TextInput from '../../components/text-input/text-input.component';
-import WithHomeButton from '../../components/with-home-button/with-home-button.component';
 import { CategoryRequestObject } from '../../store/category/category.types';
 import { useDispatch } from 'react-redux';
 import { addCategoryStart } from '../../store/category/category.slice';
@@ -37,7 +36,6 @@ const AddCategory = () => {
 	};
 
 	return (
-		<WithHomeButton>
 			<Form title='Add Category' buttonText='add' onSubmit={handleSubmit}>
 				<TextInput label='Name' name='name' onChange={handleChange} />
 				<RadioChoice
@@ -58,7 +56,6 @@ const AddCategory = () => {
 					name='description'
 				/>
 			</Form>
-		</WithHomeButton>
 	);
 };
 

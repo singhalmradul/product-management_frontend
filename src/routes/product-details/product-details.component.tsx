@@ -55,9 +55,9 @@ const ProductDetails = () => {
 			<Detail label='Code' value={product.code} />
 			<Detail label='Name' value={product.name} />
 			<Detail label='Weight' value={product.weightString} />
-			<Detail label='Length' value={product.dimensions?.length ?? 'N/A'} />
-			<Detail label='Width' value={product.dimensions?.width ?? 'N/A'} />
-			<Detail label='Height' value={product.dimensions?.height ?? 'N/A'} />
+			<Detail label='Length' value={product.dimensions?.length} />
+			<Detail label='Width' value={product.dimensions?.width} />
+			<Detail label='Height' value={product.dimensions?.height} />
 			<Detail
 				label='Categories'
 				value={
@@ -67,9 +67,9 @@ const ProductDetails = () => {
 			/>
 			<Detail label='Description' value={product.description} />
 			<ImagePreview images={product.images} />
-			{/* <Link to={`/edit/product/${product.id}`}>
+			<Link to={`/edit/product/${product.id}`}>
 				<Button>Edit</Button>
-			</Link> */}
+			</Link>
 			<Button onClick={handleDelete}>Delete</Button>
 			<Link to='/'>
 				<Button>Back</Button>
