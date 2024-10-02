@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 export const Heading = styled.h4`
     margin-bottom: 10px;
-    font-size: var(--heading-font-size, 18px);
-    color: var(--heading-color, #333);
+    font-size: 18px;
+    color: #333;
     transition: color 0.3s ease;
 
     &:hover {
-        color: var(--heading-hover-color, #555);
+        color: #555;
     }
 
     @media (max-width: 360px) {
@@ -19,7 +19,7 @@ export const Heading = styled.h4`
 export const Input = styled.input`
     margin-right: 10px;
     padding: 0.5rem;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -30,7 +30,7 @@ export const Input = styled.input`
 
     &:focus {
         outline: none;
-        border-color: var(--focus-border-color, #007bff);
+        border-color: #007bff;
     }
 
     @media (max-width: 360px) {
@@ -40,12 +40,12 @@ export const Input = styled.input`
 
 export const Label = styled.label`
     margin-right: 20px;
-    font-size: var(--label-font-size, 14px);
-    color: var(--label-color, #333);
+    font-size: 14px;
+    color: #333;
     transition: color 0.3s ease;
 
     &:hover {
-        color: var(--label-hover-color, #555);
+        color: #555;
     }
 
     @media (max-width: 360px) {
@@ -59,10 +59,10 @@ export const ChoicesContainer = styled.div`
     align-items: center;
     margin-bottom: 20px;
     padding: 10px;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: var(--background-color, #fff);
+    background-color: #fff;
     transition: box-shadow 0.3s ease;
 
     @media (max-width: 360px) {

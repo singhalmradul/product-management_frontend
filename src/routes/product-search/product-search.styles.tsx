@@ -5,10 +5,10 @@ export const ProductSearchContainer = styled.div`
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: var(--background-color, #f9f9f9);
+    background-color: #f9f9f9;
     transition: box-shadow 0.3s ease;
 `;
 
@@ -16,9 +16,9 @@ export const SearchInput = styled.input`
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: var(--font-size, 16px);
+    font-size: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
@@ -28,28 +28,28 @@ export const SearchInput = styled.input`
 
     &:focus {
         outline: none;
-        border-color: var(--focus-border-color, #007bff);
+        border-color: #007bff;
     }
 `;
 
 export const SearchResults = styled.div`
     max-height: 300px;
     overflow-y: auto;
-    border-top: 1px solid var(--border-color, #ccc);
+    border-top: 1px solid #ccc;
     padding-top: 10px;
-    background-color: var(--background-color, #fff);
+    background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
 `;
 
 export const SearchResult = styled.div`
     padding: 10px;
-    border-bottom: 1px solid var(--border-color, #eee);
-    font-size: var(--font-size, 14px);
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
     transition: background-color 0.3s ease;
 
     &:hover {
-        background-color: var(--hover-background-color, #f1f1f1);
+        background-color: #f1f1f1;
     }
 
     &:last-child {

@@ -10,10 +10,10 @@ export const ImagePreviewContainer = styled.div`
 	align-items: center;
 	margin-bottom: 20px;
 	padding: 10px;
-	border: 1px solid var(--border-color, #ccc);
+	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	background-color: var(--background-color, #fff);
+	background-color: #fff;
 	transition: box-shadow 0.3s ease;
 
 	&::-webkit-scrollbar {
@@ -36,7 +36,7 @@ export const ImagePreviewContainer = styled.div`
 
 export const ImageContainer = styled.img`
 	scroll-snap-align: start;
-	padding: var(--image-padding, 20px 30px);
+	padding: 20px 30px;
 	flex-shrink: 0;
 	margin-right: 10px;
 	width: 100%;

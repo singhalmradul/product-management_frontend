@@ -73,7 +73,7 @@ export const addProduct = async (
 		images: [],
 	});
 	const formData = new FormData();
-	product.newImages.forEach((image) => formData.append('images', image));
+	product.images.forEach((image) => formData.append('images', image));
 	const imageResponse = await axios.post<string[]>(
 		`${productsUrl}/${response.data.id}/images`,
 		formData
@@ -86,4 +86,8 @@ export const searchProducts = async (query: string) => {
 		`${productsUrl}/search?query=${query}`
 	);
 	return response.data;
+};
+
+export const deleteProduct = async (id: string) => {
+	await axios.delete(`${productsUrl}/${id}`);
 };

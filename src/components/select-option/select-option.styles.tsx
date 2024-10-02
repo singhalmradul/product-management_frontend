@@ -6,7 +6,7 @@ export const SelectOptionContainer = styled.div`
 	align-items: center;
 	margin: 20px;
 	padding: 10px;
-	background-color: var(--background-color, #fff);
+	background-color: #fff;
 	transition: box-shadow 0.3s ease;
 
 	@media (max-width: 360px) {
@@ -17,9 +17,9 @@ export const SelectOptionContainer = styled.div`
 export const Select = styled.select`
 	width: 200px;
 	padding: 10px;
-	border: 1px solid var(--border-color, #ccc);
+	border: 1px solid #ccc;
 	border-radius: 4px;
-	font-size: var(--font-size, 16px);
+	font-size: 16px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
@@ -29,7 +29,7 @@ export const Select = styled.select`
 
 	&:focus {
 		outline: none;
-		border-color: var(--focus-border-color, #007bff);
+		border-color: #007bff;
 	}
 
 	@media (max-width: 360px) {

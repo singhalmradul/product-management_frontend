@@ -6,10 +6,10 @@ export const DimensionsContainer = styled.div`
     margin: 0.5rem 0;
     align-items: center;
     padding: 10px;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: var(--background-color, #fff);
+    background-color: #fff;
     transition: box-shadow 0.3s ease;
 
     @media (max-width: 360px) {
@@ -24,10 +24,10 @@ export const CheckboxContainer = styled.div`
     margin-bottom: 20px;
     gap: 10px;
     padding: 10px;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    background-color: var(--background-color, #fff);
+    background-color: #fff;
     transition: box-shadow 0.3s ease;
 
     @media (max-width: 280px) {
@@ -39,7 +39,7 @@ export const CheckboxContainer = styled.div`
 export const Checkbox = styled.input`
     margin-right: 10px;
     padding: 0.5rem;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -50,7 +50,7 @@ export const Checkbox = styled.input`
 
     &:focus {
         outline: none;
-        border-color: var(--focus-border-color, #007bff);
+        border-color: #007bff;
     }
 
     @media (max-width: 280px) {
@@ -60,12 +60,12 @@ export const Checkbox = styled.input`
 `;
 
 export const CheckboxLabel = styled.label`
-    font-size: var(--label-font-size, 16px);
-    color: var(--label-color, #333);
+    font-size: 16px;
+    color: #333;
     transition: color 0.3s ease;
 
     &:hover {
-        color: var(--label-hover-color, #555);
+        color: #555;
     }
 
     @media (max-width: 280px) {

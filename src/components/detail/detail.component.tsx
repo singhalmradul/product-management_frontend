@@ -5,7 +5,7 @@ type DetailProps = {
 	value: string | number | null;
 };
 
-export const Detail = ({ label, value }: DetailProps) => {
+const Detail = ({ label, value }: DetailProps) => {
 	return (
 		<DetailContainer>
 			<DetailName>{label}</DetailName>
@@ -13,3 +13,5 @@ export const Detail = ({ label, value }: DetailProps) => {
 		</DetailContainer>
 	);
 };
+
+export default Detail;

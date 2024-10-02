@@ -20,6 +20,10 @@ export type SearchProductsStartAction = UnknownAction & {
 	payload: string;
 };
 
+export type DeleteProductStartAction = UnknownAction & {
+	payload: string;
+};
+
 const productSlice = createSlice({
 	name: 'product',
 	initialState,
@@ -51,16 +55,16 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		},
-		fetchProductStart(state, action: FetchProductStartAction) {
+		fetchProductByIdStart(state, action: FetchProductStartAction) {
 			state.product = null;
 			state.isLoading = true;
 			state.error = null;
 		},
-		fetchProductSuccess(state, action: { payload: Product }) {
+		fetchProductByIdSuccess(state, action: { payload: Product }) {
 			state.isLoading = false;
 			state.product = action.payload;
 		},
-		fetchProductFailure(state, action: { payload: Error }) {
+		fetchProductByIdFailure(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -77,6 +81,18 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		},
+		deleteProductStart(state, action: DeleteProductStartAction) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		deleteProductSuccess(state, action: { payload: string }) {
+			state.isLoading = false;
+			state.product = null;
+		},
+		deleteProductFailure(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
 	},
 });
 
@@ -87,12 +103,15 @@ export const {
 	addProductStart,
 	addProductSuccess,
 	addProductFailure,
-	fetchProductStart,
-	fetchProductSuccess,
-	fetchProductFailure,
+	fetchProductByIdStart,
+	fetchProductByIdSuccess,
+	fetchProductByIdFailure,
 	searchProductsStart,
 	searchProductsSuccess,
 	searchProductsFailure,
+	deleteProductStart,
+	deleteProductSuccess,
+	deleteProductFailure,
 } = productSlice.actions;
 
 export default productSlice.reducer;

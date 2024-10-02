@@ -1,6 +1,7 @@
 import { call, put, takeLatest, all, debounce } from 'typed-redux-saga/macro';
 import {
 	addProduct,
+	deleteProduct,
 	fetchAllProducts,
 	fetchProductById,
 	searchProducts,
@@ -10,15 +11,19 @@ import {
 	addProductStart,
 	AddProductStartAction,
 	addProductSuccess,
-	fetchProductFailure,
+	fetchProductByIdFailure,
 	fetchProductsFailure,
 	fetchProductsStart,
 	fetchProductsSuccess,
-	fetchProductStart,
+	fetchProductByIdStart,
 	FetchProductStartAction,
-	fetchProductSuccess,
+	fetchProductByIdSuccess,
 	searchProductsStart,
 	SearchProductsStartAction,
+	deleteProductSuccess,
+	deleteProductFailure,
+	DeleteProductStartAction,
+	deleteProductStart,
 } from './product.slice';
 
 // MARK: Workers
@@ -43,9 +48,9 @@ const addProductAsync = function* ({ payload }: AddProductStartAction) {
 const fetchProductAsync = function* ({ payload: id }: FetchProductStartAction) {
 	try {
 		const product = yield* call(fetchProductById, id);
-		yield put(fetchProductSuccess(product));
+		yield put(fetchProductByIdSuccess(product));
 	} catch (error) {
-		yield put(fetchProductFailure(error as Error));
+		yield put(fetchProductByIdFailure(error as Error));
 	}
 };
 
@@ -60,6 +65,15 @@ const searchProductsAsync = function* ({
 	}
 };
 
+const deleteProductAsync = function* ({ payload: id }: DeleteProductStartAction) {
+	try {
+		yield* call(deleteProduct, id);
+		yield put(deleteProductSuccess(id));
+	} catch (error) {
+		yield put(deleteProductFailure(error as Error));
+	}
+}
+
 // MARK: Observers
 const onFetchProducts = function* () {
 	yield* takeLatest(fetchProductsStart, fetchProductsAsync);
@@ -70,11 +84,15 @@ const onAddProduct = function* () {
 };
 
 const onFetchProduct = function* () {
-	yield* takeLatest(fetchProductStart, fetchProductAsync);
+	yield* takeLatest(fetchProductByIdStart, fetchProductAsync);
 };
 
 const onSearchProducts = function* () {
 	yield* debounce(1000, searchProductsStart, searchProductsAsync);
+};
+
+const onDeleteProduct = function* () {
+	yield* takeLatest(deleteProductStart, deleteProductAsync);
 };
 
 // MARK: Saga
@@ -84,6 +102,7 @@ const productSaga = function* () {
 		call(onAddProduct),
 		call(onFetchProduct),
 		call(onSearchProducts),
+		call(onDeleteProduct),
 	]);
 };
 

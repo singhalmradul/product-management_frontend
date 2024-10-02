@@ -2,23 +2,23 @@ import { ChangeEvent } from 'react';
 import { randomId, snakeCase } from '../../utilities/helper.utility';
 import { ChoicesContainer, Heading, Input, Label } from './radio-choice.styles';
 
-type RadioChoiceProps = {
+type RadioChoiceProps<T extends string> = {
 	name: string;
 	label: string;
-	choices: string[];
-	selectedChoice: string;
+	choices: T[];
+	selectedChoice: T;
 	preChoiceElement?: React.ReactNode;
 	onChoiceChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const RadioChoice = ({
+const RadioChoice = <T extends string>({
 	name,
 	label,
 	choices,
 	selectedChoice,
 	preChoiceElement,
 	onChoiceChange,
-}: RadioChoiceProps) => {
+}: RadioChoiceProps<T>) => {
 	return (
 		<div>
 			<Heading>{label}</Heading>

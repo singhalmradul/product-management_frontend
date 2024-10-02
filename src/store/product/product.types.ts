@@ -28,7 +28,7 @@ export type ProductRequestObject = {
 	weight: number | null;
 	name: string;
 	unitPreference: QuantityUnit;
-	newImages: File[];
+	images: File[];
 	description: string | null;
 	categories: ProductRequestCategoryObject[];
 };
@@ -42,6 +42,13 @@ export type ProductState = {
 	readonly isLoading: boolean;
 	readonly error: Error | null;
 	readonly product: Product | null;
+};
+
+export const toRequestProduct = (product: Product): ProductRequestObject => {
+	const { id, images, ...rest } = product;
+	const categories = rest.categories.map(({ id }) => ({ id }));
+	const imageFiles: File[] = images.map((image) => new File([], image));
+	return { ...rest, categories, images: imageFiles };
 };
 
 export default Product;

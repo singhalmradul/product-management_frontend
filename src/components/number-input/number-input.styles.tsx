@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const NumberInputContainer = styled.input`
-    border: 1px solid var(--border-color, black);
+    border: 1px solid black;
     padding: 0.5rem;
-    font-size: var(--font-size, 12px);
+    font-size: 12px;
     width: 80px;
     margin: 0.5rem 0;
     border-radius: 4px;
@@ -11,7 +11,7 @@ export const NumberInputContainer = styled.input`
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
     &::placeholder {
-        font-size: var(--placeholder-font-size, 12px);
+        font-size: 12px;
     }
 
     &:hover {
@@ -20,7 +20,7 @@ export const NumberInputContainer = styled.input`
 
     &:focus {
         outline: none;
-        border-color: var(--focus-border-color, #007bff);
+        border-color: #007bff;
     }
 
     @media (max-width: 280px) {

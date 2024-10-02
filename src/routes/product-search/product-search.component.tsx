@@ -48,6 +48,9 @@ const ProductSearch = () => {
 					No products found for "{query}". <br /> Please try another
 				</p>
 			)}
+			{query.trim().length <= 3 && (
+				<p>Search for products by typing at least 4 characters</p>
+			)}
 		</ProductSearchContainer>
 	);
 };

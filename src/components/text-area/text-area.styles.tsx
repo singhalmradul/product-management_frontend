@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const TextAreaContainer = styled.textarea`
     margin-bottom: 20px;
     padding: 10px;
-    border: 1px solid var(--border-color, #ccc);
+    border: 1px solid #ccc;
     border-radius: 4px;
     resize: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -15,7 +15,7 @@ export const TextAreaContainer = styled.textarea`
 
     &:focus {
         outline: none;
-        border-color: var(--focus-border-color, #007bff);
+        border-color: #007bff;
     }
 
     @media (max-width: 360px) {
