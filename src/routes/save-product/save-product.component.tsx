@@ -69,7 +69,6 @@ const SaveProduct = () => {
 
 	// MARK: State
 	const [autoGenerateCode, setAutoGenerateCode] = useState(!id);
-	console.log('selectedProduct', selectedProduct);
 	const [product, setProduct] = useState(
 		selectedProduct ? toRequestProduct(selectedProduct) : INITIAL_PRODUCT_STATE
 	);
@@ -190,7 +189,17 @@ const SaveProduct = () => {
 	}
 
 	return (
-		<Form title='Add Product' buttonText='save' onSubmit={handleSubmit}>
+		<Form
+			title='Add Product'
+			buttonText='save'
+			onSubmit={handleSubmit}
+			buttonDisabled={
+				!product.code ||
+				!product.name ||
+				!product.weight ||
+				!product.categories.length
+			}
+		>
 			<TextInput
 				label='Code'
 				name='code'
@@ -270,7 +279,6 @@ const SaveProduct = () => {
 			<RadioChoice<QuantityUnit>
 				label='Unit Preference'
 				choices={[QuantityUnit.KG, QuantityUnit.PCS, QuantityUnit.BOXES]}
-				selectedChoice={product.unitPreference}
 				onChoiceChange={handleChange}
 				name='unitPreference'
 			/>

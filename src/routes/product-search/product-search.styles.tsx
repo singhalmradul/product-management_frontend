@@ -56,3 +56,15 @@ export const SearchResult = styled.div`
         border-bottom: none;
     }
 `;
+
+export const NotFoundMessage = styled.p`
+    padding: 20px;
+    font-size: 16px;
+    text-align: center;
+    color: #999;
+`;
+
+export const Query = styled.span`
+    font-style: italic;
+    color: #737;
+`;

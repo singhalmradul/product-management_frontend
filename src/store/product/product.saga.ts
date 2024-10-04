@@ -1,6 +1,6 @@
 import { call, put, takeLatest, all, debounce } from 'typed-redux-saga/macro';
 import {
-	addProduct,
+	createProduct,
 	deleteProduct,
 	fetchAllProducts,
 	fetchProductById,
@@ -38,7 +38,7 @@ const fetchProductsAsync = function* () {
 
 const addProductAsync = function* ({ payload }: AddProductStartAction) {
 	try {
-		const product = yield* call(addProduct, payload);
+		const product = yield* call(createProduct, payload);
 		yield put(addProductSuccess(product));
 	} catch (error) {
 		yield put(addProductFailure(error as Error));

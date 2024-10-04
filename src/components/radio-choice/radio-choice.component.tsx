@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 import { randomId, snakeCase } from '../../utilities/helper.utility';
 import { ChoicesContainer, Heading, Input, Label } from './radio-choice.styles';
 
@@ -6,8 +6,8 @@ type RadioChoiceProps<T extends string> = {
 	name: string;
 	label: string;
 	choices: T[];
-	selectedChoice: T;
-	preChoiceElement?: React.ReactNode;
+	selectedChoice?: T;
+	preChoiceElement?: ReactNode;
 	onChoiceChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 

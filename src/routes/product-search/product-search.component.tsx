@@ -1,18 +1,25 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectProducts } from '../../store/product/product.selector';
+import {
+	selectProductIsLoading,
+	selectProducts,
+} from '../../store/product/product.selector';
 import { searchProductsStart } from '../../store/product/product.slice';
 import {
+	NotFoundMessage,
 	ProductSearchContainer,
+	Query,
 	SearchInput,
 	SearchResult,
 	SearchResults,
 } from './product-search.styles';
 import { Link } from 'react-router-dom';
+import Spinner from '../../components/spinner/spinner.component';
 
 const ProductSearch = () => {
 	const [query, setQuery] = useState('');
 	const products = useSelector(selectProducts);
+	const productIsLoading = useSelector(selectProductIsLoading);
 	const dispatch = useDispatch();
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,23 +40,26 @@ const ProductSearch = () => {
 				className='search-input'
 			/>
 			{products.length > 0 && (
-				<SearchResults className='search-results'>
-					{products.map((product) => (
-						<Link to={`/view/product/${product.id}`} key={product.id}>
-							<SearchResult key={product.id} className='search-result'>
-								{product.name} - {product.code} - {product.weightString}
+				<SearchResults>
+					{products.map(({ id, name, code, weightString }) => (
+						<Link to={`/view/product/${id}`} key={id}>
+							<SearchResult key={id} className='search-result'>
+								{name} - {code} - {weightString}
 							</SearchResult>
 						</Link>
 					))}
 				</SearchResults>
 			)}
-			{products.length === 0 && query.trim().length > 3 && (
-				<p>
-					No products found for "{query}". <br /> Please try another
-				</p>
-			)}
-			{query.trim().length <= 3 && (
-				<p>Search for products by typing at least 4 characters</p>
+			{productIsLoading ? (
+				<Spinner />
+			) : (
+				products.length === 0 &&
+				query.trim().length > 0 && (
+					<NotFoundMessage>
+						We couldn't find any products matching <Query>{query}</Query>.{' '}
+						<br /> Try refining your search or using different keywords.
+					</NotFoundMessage>
+				)
 			)}
 		</ProductSearchContainer>
 	);

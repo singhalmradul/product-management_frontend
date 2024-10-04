@@ -9,7 +9,7 @@ export type OrderProduct = {
 };
 
 export type OrderState = {
-	readonly merchant: string;
+	readonly customer: string;
 	readonly date: string;
 	readonly products: OrderProduct[];
 	readonly isLoading: boolean;

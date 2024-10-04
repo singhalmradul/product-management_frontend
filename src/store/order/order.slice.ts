@@ -4,7 +4,7 @@ import { QuantityUnit } from '../types';
 
 // MARK: - Initial State
 const initialState: OrderState = {
-	merchant: '',
+	customer: '',
 	date: new Date().toISOString().split('T')[0],
 	products: [],
 	isLoading: false,
@@ -59,8 +59,8 @@ const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-		setMerchant(state, action: { payload: string }) {
-			state.merchant = action.payload;
+		setCustomer(state, action: { payload: string }) {
+			state.customer = action.payload;
 		},
 		setDate(state, action: { payload: string }) {
 			state.date = action.payload;
@@ -91,7 +91,7 @@ const orderSlice = createSlice({
 
 // MARK: - Actions
 export const {
-	setMerchant,
+	setCustomer,
 	setDate,
 	addProductStart,
 	addProductSuccess,

@@ -19,6 +19,7 @@ a {
 
 * {
 	box-sizing: border-box;
+
 	&::-webkit-scrollbar {
 		height: 8px; /* Adjust the height of the scrollbar */
 		width: 8px; /* Adjust the width of the scrollbar */

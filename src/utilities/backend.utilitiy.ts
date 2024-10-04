@@ -46,13 +46,12 @@ export const addCategory = async (
 		...category,
 		images: [],
 	});
-	const formData = new FormData();
-	category.images.forEach((image) => formData.append('images', image));
-	const imageResponse = await axios.post<string[]>(
-		`${categoriesUrl}/${response.data.id}/images`,
-		formData
+	const imageResponse = await uploadImages(
+		category.images,
+		response.data.id,
+		categoriesUrl
 	);
-	return { ...response.data, images: imageResponse.data };
+	return { ...response.data, images: imageResponse };
 };
 
 export const fetchAllProducts = async () => {
@@ -65,20 +64,39 @@ export const fetchProductById = async (id: string) => {
 	return response.data;
 };
 
-export const addProduct = async (
+const uploadImages = async (images: File[], id: string, url: string) => {
+	const formData = new FormData();
+	images.forEach((image) => formData.append('images', image));
+	const response = await axios.post<string[]>(`${url}/${id}/images`, formData);
+	return response.data;
+};
+
+export const createProduct = async (
 	product: ProductRequestObject
 ): Promise<Product> => {
 	const response = await axios.post<Product>(productsUrl, {
 		...product,
 		images: [],
 	});
-	const formData = new FormData();
-	product.images.forEach((image) => formData.append('images', image));
-	const imageResponse = await axios.post<string[]>(
-		`${productsUrl}/${response.data.id}/images`,
-		formData
+	const imageResponse = await uploadImages(
+		product.images,
+		response.data.id,
+		productsUrl
 	);
-	return { ...response.data, images: imageResponse.data };
+	return { ...response.data, images: imageResponse };
+};
+
+export const updateProduct = async (
+	product: ProductRequestObject,
+	id: string
+): Promise<Product> => {
+	const response = await axios.put<Product>(`${productsUrl}/${id}`, product);
+	const imageResponse = await uploadImages(
+		product.images,
+		response.data.id,
+		productsUrl
+	);
+	return { ...response.data, images: imageResponse };
 };
 
 export const searchProducts = async (query: string) => {

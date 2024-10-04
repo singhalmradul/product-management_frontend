@@ -5,7 +5,7 @@ const selectOrderSlice = (state: RootState) => state.order;
 
 export const selectMerchant = createSelector(
 	[selectOrderSlice],
-	(slice) => slice.merchant
+	(slice) => slice.customer
 );
 
 export const selectDate = createSelector(

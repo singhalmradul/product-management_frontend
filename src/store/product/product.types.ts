@@ -27,7 +27,7 @@ export type ProductRequestObject = {
 	};
 	weight: number | null;
 	name: string;
-	unitPreference: QuantityUnit;
+	unitPreference: QuantityUnit | null;
 	images: File[];
 	description: string | null;
 	categories: ProductRequestCategoryObject[];

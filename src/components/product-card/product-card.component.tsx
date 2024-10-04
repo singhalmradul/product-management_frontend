@@ -15,6 +15,7 @@ import {
 import Button from '../button/button.component';
 import NumberInput from '../number-input/number-input.component';
 import RadioChoice from '../radio-choice/radio-choice.component';
+import { ProductCardContainer, ProductInfo } from './product-card.styles';
 
 type ProductCardProps = {
 	orderProduct: OrderProduct;
@@ -47,10 +48,10 @@ const ProductCard = ({
 	};
 
 	return (
-		<div className='product'>
-			<h3 className='product-info'>
+		<ProductCardContainer>
+			<ProductInfo>
 				{name} ({code})
-			</h3>
+			</ProductInfo>
 			<NumberInput placeholder='quantity' onChange={handleQuantityChange} />
 			<RadioChoice
 				choices={[QuantityUnit.KG, QuantityUnit.PCS, QuantityUnit.BOXES]}
@@ -60,7 +61,7 @@ const ProductCard = ({
 				onChoiceChange={handleUnitChange}
 			/>
 			<Button onClick={handleRemove}>remove</Button>
-		</div>
+		</ProductCardContainer>
 	);
 };
 
