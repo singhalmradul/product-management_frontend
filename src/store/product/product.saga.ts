@@ -1,16 +1,16 @@
 import { call, put, takeLatest, all, debounce } from 'typed-redux-saga/macro';
 import {
-	createProduct,
 	deleteProduct,
 	fetchAllProducts,
 	fetchProductById,
+	saveProduct,
 	searchProducts,
 } from '../../utilities/backend.utilitiy';
 import {
-	addProductFailure,
-	addProductStart,
-	AddProductStartAction,
-	addProductSuccess,
+	saveProductFailure,
+	saveProductStart,
+	SaveProductStartAction,
+	saveProductSuccess,
 	fetchProductByIdFailure,
 	fetchProductsFailure,
 	fetchProductsStart,
@@ -36,12 +36,12 @@ const fetchProductsAsync = function* () {
 	}
 };
 
-const addProductAsync = function* ({ payload }: AddProductStartAction) {
+const saveProductAsync = function* ({ payload }: SaveProductStartAction) {
 	try {
-		const product = yield* call(createProduct, payload);
-		yield put(addProductSuccess(product));
+		const product = yield* call(saveProduct, payload.product, payload.id);
+		yield put(saveProductSuccess(product));
 	} catch (error) {
-		yield put(addProductFailure(error as Error));
+		yield put(saveProductFailure(error as Error));
 	}
 };
 
@@ -74,13 +74,13 @@ const deleteProductAsync = function* ({ payload: id }: DeleteProductStartAction)
 	}
 }
 
-// MARK: Observers
+// MARK: Watchers
 const onFetchProducts = function* () {
 	yield* takeLatest(fetchProductsStart, fetchProductsAsync);
 };
 
 const onAddProduct = function* () {
-	yield* takeLatest(addProductStart, addProductAsync);
+	yield* takeLatest(saveProductStart, saveProductAsync);
 };
 
 const onFetchProduct = function* () {

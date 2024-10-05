@@ -47,11 +47,34 @@ export const addCategory = async (
 		images: [],
 	});
 	const imageResponse = await uploadImages(
-		category.images,
+		category.newImages,
 		response.data.id,
 		categoriesUrl
 	);
 	return { ...response.data, images: imageResponse };
+};
+
+export const updateCategory = async(
+	category: CategoryRequestObject,
+	id: string
+): Promise<Category> => {
+	const response = await axios.put<Category>(`${categoriesUrl}/${id}`, category);
+	const imageResponse = await uploadImages(
+		category.newImages,
+		response.data.id,
+		categoriesUrl
+	);
+	return { ...response.data, images: imageResponse };
+}
+
+export const saveCategory = async (
+	category: CategoryRequestObject,
+	id?: string
+): Promise<Category> => {
+	if (id) {
+		return updateCategory(category, id);
+	}
+	return addCategory(category);
 };
 
 export const fetchAllProducts = async () => {
@@ -64,7 +87,15 @@ export const fetchProductById = async (id: string) => {
 	return response.data;
 };
 
+export const fetchCategoryById = async (id: string) => {
+	const response = await axios.get<Category>(`${categoriesUrl}/${id}`);
+	return response.data;
+};
+
 const uploadImages = async (images: File[], id: string, url: string) => {
+	if (images.length === 0) {
+		return [];
+	}
 	const formData = new FormData();
 	images.forEach((image) => formData.append('images', image));
 	const response = await axios.post<string[]>(`${url}/${id}/images`, formData);
@@ -79,7 +110,7 @@ export const createProduct = async (
 		images: [],
 	});
 	const imageResponse = await uploadImages(
-		product.images,
+		product.newImages,
 		response.data.id,
 		productsUrl
 	);
@@ -92,11 +123,21 @@ export const updateProduct = async (
 ): Promise<Product> => {
 	const response = await axios.put<Product>(`${productsUrl}/${id}`, product);
 	const imageResponse = await uploadImages(
-		product.images,
+		product.newImages,
 		response.data.id,
 		productsUrl
 	);
 	return { ...response.data, images: imageResponse };
+};
+
+export const saveProduct = async (
+	product: ProductRequestObject,
+	id?: string
+): Promise<Product> => {
+	if (id) {
+		return updateProduct(product, id);
+	}
+	return createProduct(product);
 };
 
 export const searchProducts = async (query: string) => {
@@ -104,6 +145,17 @@ export const searchProducts = async (query: string) => {
 		`${productsUrl}/search?query=${query}`
 	);
 	return response.data;
+};
+
+export const searchCategories = async (query: string) => {
+	const response = await axios.get<Category[]>(
+		`${categoriesUrl}/search?query=${query}`
+	);
+	return response.data;
+}
+
+export const deleteCategory = async (id: string) => {
+	await axios.delete(`${categoriesUrl}/${id}`);
 };
 
 export const deleteProduct = async (id: string) => {

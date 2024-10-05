@@ -8,8 +8,12 @@ const initialState: ProductState = {
 	product: null,
 };
 
-export type AddProductStartAction = UnknownAction & {
-	payload: ProductRequestObject;
+// MARK: Actions Types
+export type SaveProductStartAction = UnknownAction & {
+	payload: {
+		product: ProductRequestObject;
+		id?: string;
+	};
 };
 
 export type FetchProductStartAction = UnknownAction & {
@@ -24,6 +28,14 @@ export type DeleteProductStartAction = UnknownAction & {
 	payload: string;
 };
 
+// MARK: Helpers
+const addProduct = (products: Product[], payload: Product) =>
+	products.map((product) => (product.id === payload.id ? payload : product));
+
+const removeProduct = (products: Product[], payload: string) =>
+	products.filter((product) => product.id !== payload);
+
+// MARK: Slice
 const productSlice = createSlice({
 	name: 'product',
 	initialState,
@@ -41,17 +53,17 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		},
-		addProductStart(state, action: AddProductStartAction) {
+		saveProductStart(state, action: SaveProductStartAction) {
 			state.product = null;
 			state.isLoading = true;
 			state.error = null;
 		},
-		addProductSuccess(state, action: { payload: Product }) {
+		saveProductSuccess(state, action: { payload: Product }) {
 			state.isLoading = false;
 			state.product = action.payload;
-			state.products.push(action.payload);
+			state.products = addProduct(state.products, action.payload);
 		},
-		addProductFailure(state, action: { payload: Error }) {
+		saveProductFailure(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -86,6 +98,7 @@ const productSlice = createSlice({
 			state.error = null;
 		},
 		deleteProductSuccess(state, action: { payload: string }) {
+			state.products = removeProduct(state.products, action.payload);
 			state.isLoading = false;
 			state.product = null;
 		},
@@ -100,9 +113,9 @@ export const {
 	fetchProductsStart,
 	fetchProductsSuccess,
 	fetchProductsFailure,
-	addProductStart,
-	addProductSuccess,
-	addProductFailure,
+	saveProductStart,
+	saveProductSuccess,
+	saveProductFailure,
 	fetchProductByIdStart,
 	fetchProductByIdSuccess,
 	fetchProductByIdFailure,
@@ -114,4 +127,4 @@ export const {
 	deleteProductFailure,
 } = productSlice.actions;
 
-export default productSlice.reducer;
+export const productReducer = productSlice.reducer;

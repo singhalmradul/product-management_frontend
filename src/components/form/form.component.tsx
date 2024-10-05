@@ -1,7 +1,8 @@
+import { FormEvent, FormHTMLAttributes } from 'react';
 import Button from '../button/button.component';
 import { FormContainer, Title } from './form.styles';
 
-type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
+type FormProps = FormHTMLAttributes<HTMLFormElement> & {
 	title: string;
 	onSubmit: (event: React.FormEvent<HTMLButtonElement>) => void;
 	buttonText: string;
@@ -16,7 +17,7 @@ const Form = ({
 	onSubmit,
 	...otherProps
 }: FormProps) => {
-	const handleClick = (event: React.FormEvent<HTMLButtonElement>) => {
+	const handleClick = (event: FormEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 		onSubmit(event);
 	};
@@ -26,7 +27,7 @@ const Form = ({
 			<Title>{title}</Title>
 			<FormContainer {...otherProps}>
 				{children}
-				<Button onClick={handleClick} disabled={buttonDisabled ?? false}>
+				<Button onClick={handleClick} disabled={buttonDisabled}>
 					{buttonText}
 				</Button>
 			</FormContainer>

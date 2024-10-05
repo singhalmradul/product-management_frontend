@@ -5,23 +5,33 @@ type SelectOptionProps<T> = Omit<
 	'children'
 > & {
 	options: T[];
-	values: (option: T) => string;
+	getValue: (option: T) => string;
 	display: (option: T) => string;
+	selectedValues?: string[];
 };
 
-const SelectOption = <T,>({ options, values, display, ...otherProps }: SelectOptionProps<T>) => {
-
+const SelectOption = <T,>({
+	options,
+	getValue,
+	display,
+	selectedValues,
+	...otherProps
+}: SelectOptionProps<T>) => {
 	return (
 		<SelectOptionContainer>
 			<Select {...otherProps}>
-				{options.map((option, index) => {
-						return (
-							<option key={index} value={values(option)}>
-								{display(option)}
-							</option>
-						);
-					}
-				)}
+				{options.map((option) => {
+					const value = getValue(option);
+					return (
+						<option
+							key={value}
+							value={value}
+							selected={selectedValues?.includes(value)}
+						>
+							{display(option)}
+						</option>
+					);
+				})}
 			</Select>
 		</SelectOptionContainer>
 	);

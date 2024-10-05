@@ -3,14 +3,17 @@ import { TextAreaContainer } from './text-area.styles';
 
 type WithLabelProps = Omit<
 	React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-	'id'
+	'value' | 'id'
 > & {
 	label: string;
+	value?: string | null;
 };
-
-const TextArea = ({ label, ...otherProps }: WithLabelProps) => {
+const TextArea = ({ label, value, ...otherProps }: WithLabelProps) => {
 	return (
-		<WithLabel label={label} element={<TextAreaContainer {...otherProps} />} />
+		<WithLabel
+			label={label}
+			element={<TextAreaContainer value={value ?? ''} {...otherProps} />}
+		/>
 	);
 };
 

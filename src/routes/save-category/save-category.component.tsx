@@ -1,17 +1,24 @@
-import { ChangeEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { QuantityUnit } from '../../store/types';
-import { CategoryRequestObject } from '../../store/category/category.types';
+import {
+	CategoryRequestObject,
+	toCategoryRequestObject,
+} from '../../store/category/category.types';
 
-import { addCategoryStart } from '../../store/category/category.slice';
+import {
+	fetchCategoryByIdStart,
+	saveCategoryStart,
+} from '../../store/category/category.slice';
 
 import FileInput from '../../components/file-input/file-input.component';
 import Form from '../../components/form/form.component';
 import RadioChoice from '../../components/radio-choice/radio-choice.component';
 import TextArea from '../../components/text-area/text-area.component';
 import TextInput from '../../components/text-input/text-input.component';
+import { selectCategory } from '../../store/category/category.selector';
 
 const SaveCategory = () => {
 	const { id } = useParams();
@@ -21,14 +28,25 @@ const SaveCategory = () => {
 		name: '',
 		unitPreference: KG,
 		images: [],
+		newImages: [],
 		description: '',
 	};
 
+	const dispatch = useDispatch();
+
+	const selectedCategory = useSelector(selectCategory);
+
 	const [category, setCategory] = useState<CategoryRequestObject>(
-		INITIAL_CATEGORY_STATE
+		id && selectedCategory
+			? toCategoryRequestObject(selectedCategory)
+			: INITIAL_CATEGORY_STATE
 	);
 
-	const dispatch = useDispatch();
+	useEffect(() => {
+		if (id) {
+			dispatch(fetchCategoryByIdStart(id));
+		}
+	}, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleChange = (
 		event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,29 +56,52 @@ const SaveCategory = () => {
 	};
 
 	const handleFileChange = (files: File[]) => {
-		setCategory({ ...category, images: files });
+		setCategory({ ...category, newImages: files });
 	};
 
 	const handleSubmit = () => {
-		dispatch(addCategoryStart(category));
+		dispatch(saveCategoryStart({ category, id }));
+	};
+
+	const handleRemoveImage = (src: string) => {
+		setCategory({
+			...category,
+			images: category.images.filter((image) => image !== src),
+		});
 	};
 
 	return (
-		<Form title='Add Category' buttonText='add' onSubmit={handleSubmit} buttonDisabled={!category.name}
+		<Form
+			title='Add Category'
+			buttonText='add'
+			onSubmit={handleSubmit}
+			buttonDisabled={!category.name}
 		>
-			<TextInput label='Name' name='name' onChange={handleChange} />
-			<RadioChoice
+			<TextInput
+				label='Name'
+				name='name'
+				onChange={handleChange}
+				value={category.name}
+			/>
+			<RadioChoice<QuantityUnit>
 				label='Unit Preference'
 				choices={[KG, PCS, BOXES]}
-				selectedChoice={KG}
+				selectedChoice={category.unitPreference}
 				onChoiceChange={handleChange}
 				name='unitPreference'
 			/>
-			<FileInput label='Images' onFileChange={handleFileChange} name='images' />
+			<FileInput
+				label='add images'
+				onFilesChange={handleFileChange}
+				name='images'
+				initialPreview={category.images}
+				onFileRemove={handleRemoveImage}
+			/>
 			<TextArea
 				label='Description'
 				onChange={handleChange}
 				name='description'
+				value={category.description}
 			/>
 		</Form>
 	);

@@ -6,7 +6,7 @@ type RadioChoiceProps<T extends string> = {
 	name: string;
 	label: string;
 	choices: T[];
-	selectedChoice?: T;
+	selectedChoice?: T | null;
 	preChoiceElement?: ReactNode;
 	onChoiceChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
@@ -26,7 +26,6 @@ const RadioChoice = <T extends string>({
 				{preChoiceElement}
 				{choices.map((choice) => {
 					const id = `${snakeCase(label)}_${snakeCase(choice)}_${randomId()}`;
-					console.log('id', id);
 					return (
 						<div key={choice}>
 							<Input

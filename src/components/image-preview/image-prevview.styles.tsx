@@ -15,30 +15,37 @@ export const ImagePreviewContainer = styled.div`
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	background-color: #fff;
 	transition: box-shadow 0.3s ease;
+`;
 
-	&::-webkit-scrollbar {
-		height: 4px; /* Adjust the height of the scrollbar */
-	}
+export const Image = styled.img`
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+`;
 
-	&::-webkit-scrollbar-track {
-		background: none; /* Background color of the scrollbar track */
-	}
+export const RemoveButton = styled.button`
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	padding: 5px;
+	border: none;
+	border-radius: 50%;
+	background-color: #fff;
+	color: #333;
+	font-size: 20px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
 
-	&::-webkit-scrollbar-thumb {
-		background: #888; /* Color of the scrollbar thumb */
-		border-radius: 10px; /* Rounded corners for the thumb */
-	}
-
-	&::-webkit-scrollbar-thumb:hover {
-		background: #555; /* Color of the scrollbar thumb on hover */
+	&:hover {
+		background-color: #f1f1f1;
 	}
 `;
 
-export const ImageContainer = styled.img`
+export const ImageContainer = styled.div`
 	scroll-snap-align: start;
 	padding: 20px 30px;
 	flex-shrink: 0;
 	width: 100%;
 	height: 100%;
-	object-fit: contain;
+	position: relative;
 `;

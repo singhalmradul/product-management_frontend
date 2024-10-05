@@ -1,8 +1,7 @@
 import Category from '../category/category.types';
-import { QuantityUnit } from '../types';
+import { ObjectWithId, QuantityUnit } from '../types';
 
-type Product = {
-	id: string;
+type Product = ObjectWithId & {
 	code: string;
 	dimensions: {
 		length: number | null;
@@ -28,13 +27,10 @@ export type ProductRequestObject = {
 	weight: number | null;
 	name: string;
 	unitPreference: QuantityUnit | null;
-	images: File[];
+	images: string[];
+	newImages: File[];
 	description: string | null;
-	categories: ProductRequestCategoryObject[];
-};
-
-export type ProductRequestCategoryObject = {
-	id: string;
+	categories: ObjectWithId[];
 };
 
 export type ProductState = {
@@ -44,11 +40,13 @@ export type ProductState = {
 	readonly product: Product | null;
 };
 
-export const toRequestProduct = (product: Product): ProductRequestObject => {
-	const { id, images, ...rest } = product;
-	const categories = rest.categories.map(({ id }) => ({ id }));
-	const imageFiles: File[] = images.map((image) => new File([], image));
-	return { ...rest, categories, images: imageFiles };
+export const toProductRequestObject = (
+	product: Product
+): ProductRequestObject => {
+	const categories = product.categories.map(
+		(category) => category as ObjectWithId
+	);
+	return { ...product, categories, newImages: [] };
 };
 
 export default Product;

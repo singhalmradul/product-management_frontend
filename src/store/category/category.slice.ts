@@ -1,16 +1,50 @@
 import { createSlice, UnknownAction } from '@reduxjs/toolkit';
-import Category, { CategoryRequestObject, CategoryState } from './category.types';
+import Category, {
+	CategoryRequestObject,
+	CategoryState,
+} from './category.types';
 
 const initialState: CategoryState = {
+	category: null,
 	categories: [],
 	isLoading: false,
 	error: null,
 };
 
-export type AddCategoryStartAction = UnknownAction & {
-	payload: CategoryRequestObject;
+// MARK: - Action types
+export type SaveCategoryStartAction = UnknownAction & {
+	payload: {
+		category: CategoryRequestObject;
+		id?: string;
+	};
 };
 
+export type FetchCategoryStartAction = UnknownAction & {
+	payload: string;
+};
+
+export type SearchCategoriesStartAction = UnknownAction & {
+	payload: string;
+};
+
+export type DeleteCategoryStartAction = UnknownAction & {
+	payload: string;
+};
+
+// MARK: - Helper functions
+const addCategory = (categories: Category[], category: Category) => {
+	const index = categories.findIndex((c) => c.id === category.id);
+	if (index !== -1) {
+		return categories.map((c) => (c.id === category.id ? category : c));
+	} else {
+		return [...categories, category];
+	}
+};
+
+const removeCategory = (categories: Category[], id: string) =>
+	categories.filter((category) => category.id !== id);
+
+// MARK: - Slice
 const categorySlice = createSlice({
 	name: 'category',
 	initialState,
@@ -23,19 +57,56 @@ const categorySlice = createSlice({
 			state.isLoading = false;
 			state.categories = action.payload;
 		},
-		fetchCategoriesFailure(state, action: { payload: Error }) {
+		fetchCategoriesFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
-		addCategoryStart(state, action: AddCategoryStartAction) {
+		saveCategoryStart(state, action: SaveCategoryStartAction) {
 			state.isLoading = true;
 			state.error = null;
 		},
-		addCategorySuccess(state, action: { payload: Category }) {
+		saveCategorySuccess(state, action: { payload: Category }) {
+			state.category = action.payload;
 			state.isLoading = false;
-			state.categories.push(action.payload);
+			state.categories = addCategory(state.categories, action.payload);
 		},
-		addCategoryFailure(state, action: { payload: Error }) {
+		saveCategoryFailed(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
+		searchCategoriesStart(state, action: SearchCategoriesStartAction) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		searchCategoriesSuccess(state, action: { payload: Category[] }) {
+			state.isLoading = false;
+			state.categories = action.payload;
+		},
+		searchCategoriesFailed(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
+		deleteCategoryStart(state, action: DeleteCategoryStartAction) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		deleteCategorySuccess(state, action: { payload: string }) {
+			state.isLoading = false;
+			state.categories = removeCategory(state.categories, action.payload);
+		},
+		deleteCategoryFailed(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
+		fetchCategoryByIdStart(state, action: FetchCategoryStartAction) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		fetchCategoryByIdSuccess(state, action: { payload: Category }) {
+			state.isLoading = false;
+			state.category = action.payload;
+		},
+		fetchCategoryByIdFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -45,10 +116,19 @@ const categorySlice = createSlice({
 export const {
 	fetchCategoriesStart,
 	fetchCategoriesSuccess,
-	fetchCategoriesFailure,
-	addCategoryStart,
-	addCategorySuccess,
-	addCategoryFailure,
+	fetchCategoriesFailed,
+	saveCategoryStart,
+	saveCategorySuccess,
+	saveCategoryFailed,
+	searchCategoriesStart,
+	searchCategoriesSuccess,
+	searchCategoriesFailed,
+	deleteCategoryStart,
+	deleteCategorySuccess,
+	deleteCategoryFailed,
+	fetchCategoryByIdStart,
+	fetchCategoryByIdSuccess,
+	fetchCategoryByIdFailed,
 } = categorySlice.actions;
 
-export default categorySlice.reducer;
+export const categoryReducer = categorySlice.reducer;
