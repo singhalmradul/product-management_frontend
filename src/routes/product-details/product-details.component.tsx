@@ -65,15 +65,13 @@ const ProductDetails = () => {
 					'No categories'
 				}
 			/>
+			<Detail label='Unit Preference' value={product.unitPreference} />
 			<Detail label='Description' value={product.description} />
 			<ImagePreview images={product.images} />
 			<Link to={`/edit/product/${product.id}`}>
 				<Button>Edit</Button>
 			</Link>
 			<Button onClick={handleDelete}>Delete</Button>
-			<Link to='/'>
-				<Button>Back</Button>
-			</Link>
 		</div>
 	);
 };
