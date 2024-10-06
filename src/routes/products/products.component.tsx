@@ -10,6 +10,7 @@ const Products = () => {
 			<Route path='add' element={<SaveProduct />} />
 			<Route path=':id' element={<ProductDetails />} />
 			<Route path=':id/edit' element={<SaveProduct />} />
+
 			<Route path='*' element={<Navigate to='/' replace />} />
 		</Routes>
 	);
