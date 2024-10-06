@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
 	deleteProductStart,
@@ -68,9 +68,7 @@ const ProductDetails = () => {
 			<Detail label='Unit Preference' value={product.unitPreference} />
 			<Detail label='Description' value={product.description} />
 			<ImagePreview images={product.images} />
-			<Link to={`/edit/product/${product.id}`}>
-				<Button>Edit</Button>
-			</Link>
+			<Button linkTo='edit'>Edit</Button>
 			<Button onClick={handleDelete}>Delete</Button>
 		</div>
 	);

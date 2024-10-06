@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const HomeContainer = styled.div`
+export const PageContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 `;
 
-export const HomeTitle = styled.h1`
+export const Title = styled.h1`
 	font-size: 2rem;
 	margin-bottom: 20px;
 	background: radial-gradient(
