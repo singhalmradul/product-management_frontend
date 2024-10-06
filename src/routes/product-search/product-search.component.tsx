@@ -12,7 +12,7 @@ import Search from '../../components/search/search.component';
 import { SearchResult } from './product-search.styles';
 
 const SearchResultComponent = ({ id, name, code, weightString }: Product) => (
-	<SearchResult key={id} to={`/view/product/${id}`}>
+	<SearchResult key={id} to={id}>
 		{name} - {code} - {weightString}
 	</SearchResult>
 );

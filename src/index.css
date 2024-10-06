@@ -38,3 +38,32 @@ a {
 		background: #555; /* Color of the scrollbar thumb on hover */
 	}
 }
+
+:root {
+	--theme: radial-gradient(
+		circle,
+		#ff9999,
+		#ff7399,
+		#dddb99,
+		#48dd99,
+		#99ddd5,
+		#992bdd,
+		#7a99dd,
+		#dd99e6
+	);
+	--theme-color: #997bff;
+	--theme-background-size: 1000% 1000%;
+	--theme-animation: gradient 600s ease infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

@@ -12,7 +12,7 @@ import {
 import { SearchResult } from './category-search.styles';
 
 const SearchResultComponent = ({ id, name }: Category) => (
-	<SearchResult key={id} to={`/view/category/${id}`}>
+	<SearchResult key={id} to={id}>
 		{name}
 	</SearchResult>
 );

@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom';
-import { ButtonContainer } from './button..styles';
+import { ButtonContainer, LinkButtonContainer } from './button..styles';
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-	linkTo?: string;
-};
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> &
+	AnchorHTMLAttributes<HTMLAnchorElement> & {
+		linkTo?: string;
+	};
 
-const Button = ({ linkTo, ...props }: ButtonProps) => {
-	if (linkTo) {
-		return <Link to={linkTo}>
-			<ButtonContainer {...props} />
-		</Link>
-	}
-	return <ButtonContainer {...props} />;
-};
-
+const Button = ({ linkTo, ...props }: ButtonProps) =>
+	linkTo ? (
+		<LinkButtonContainer to={linkTo} {...props} />
+	) : (
+		<ButtonContainer {...props} />
+	);
 export default Button;
