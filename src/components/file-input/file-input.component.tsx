@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FileInputContainer, Input, Label } from './file-input.styles';
 import { randomId, snakeCase } from '../../utilities/helper.utility';
 import ImagePreview from '../image-preview/image-preview.component';

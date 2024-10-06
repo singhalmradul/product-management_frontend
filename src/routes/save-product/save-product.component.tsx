@@ -78,11 +78,11 @@ const SaveProduct = () => {
 
 	const [weight, setWeight] = useState({
 		value:
-			product.weight && product.weight > 1000
+			product.weight && product.weight >= 1000
 				? product.weight / 1000
 				: product.weight,
 		unit:
-			product.weight && product.weight > 1000 ? WeightUnit.KG : WeightUnit.G,
+			product.weight && product.weight >= 1000 ? WeightUnit.KG : WeightUnit.G,
 	});
 
 	// MARK: Effects
@@ -160,7 +160,6 @@ const SaveProduct = () => {
 	};
 
 	const handleFileChange = (files: File[]) => {
-		console.log('files', files);
 		setProduct({ ...product, newImages: files });
 	};
 
