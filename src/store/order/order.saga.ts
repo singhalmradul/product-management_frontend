@@ -1,11 +1,11 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga/macro';
 import {
-	addProductFailure,
+	addProductFailed,
 	addProductStart,
 	AddProductStartAction,
 	addProductSuccess,
 } from './order.slice';
-import { fetchProductById } from '../../utilities/backend.utilitiy';
+import { fetchProductById } from '../../utilities/backend/product-backend.utility';
 
 const addProductAsync = function* ({ payload: id }: AddProductStartAction) {
 	try {
@@ -17,7 +17,7 @@ const addProductAsync = function* ({ payload: id }: AddProductStartAction) {
 			})
 		);
 	} catch (error) {
-		yield put(addProductFailure(error as Error));
+		yield put(addProductFailed(error as Error));
 	}
 };
 

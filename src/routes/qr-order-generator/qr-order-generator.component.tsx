@@ -1,14 +1,18 @@
 import { ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addProductStart, setDate, setCustomer } from '../../store/order/order.slice';
+import {
+	addProductStart,
+	setDate,
+	setCustomer,
+} from '../../store/order/order.slice';
 
 import Button from '../../components/button/button.component';
 import ProductList from '../../components/product-list/product-list.component';
 import QrScanner from '../../components/qr-scanner/qr-scanner.component';
 import TextInput from '../../components/text-input/text-input.component';
 import WithLabel from '../../components/with-label/with-label.component';
-import { QrOrderGeneratorContainer, QrOrderGeneratorTitle } from './qr-order-generator.styles';
+import Page from '../../components/page/page.component';
 
 const QrOrderGenerator = () => {
 	const dispatch = useDispatch();
@@ -26,9 +30,12 @@ const QrOrderGenerator = () => {
 	};
 
 	return (
-		<QrOrderGeneratorContainer>
-			<QrOrderGeneratorTitle>Qr Order Generator</QrOrderGeneratorTitle>
-			<TextInput placeholder='Customer Name' label='Customer Name' onChange={handleChange}/>
+		<Page title='Qr Order Generator'>
+			<TextInput
+				placeholder='Customer Name'
+				label='Customer Name'
+				onChange={handleChange}
+			/>
 			<WithLabel
 				label='Date'
 				element={
@@ -42,7 +49,7 @@ const QrOrderGenerator = () => {
 			<QrScanner onScan={handleScan} />
 			<ProductList />
 			<Button>Confirm</Button>
-		</QrOrderGeneratorContainer>
+		</Page>
 	);
 };
 

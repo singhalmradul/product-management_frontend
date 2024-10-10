@@ -1,12 +1,13 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { QuantityUnit, WeightUnit } from '../../store/types';
 import {
 	ProductRequestObject,
 	toProductRequestObject,
 } from '../../store/product/product.types';
+import { Category } from '../../store/category/category.types';
 
 import { fetchCategoriesStart } from '../../store/category/category.slice';
 import {
@@ -39,10 +40,11 @@ import {
 	CheckboxLabel,
 	DimensionsContainer,
 } from './save-product.styles';
-import Category from '../../store/category/category.types';
 
 const SaveProduct = () => {
 	const { id } = useParams();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const INITIAL_PRODUCT_STATE: ProductRequestObject = {
 		code: '',
@@ -60,8 +62,6 @@ const SaveProduct = () => {
 		unitPreference: QuantityUnit.KG,
 	};
 
-	const dispatch = useDispatch();
-
 	// MARK: Selectors
 	const categories = useSelector(selectCategories);
 	const categoriesMap = useSelector(selectCategoryMap);
@@ -70,6 +70,7 @@ const SaveProduct = () => {
 
 	// MARK: State
 	const [autoGenerateCode, setAutoGenerateCode] = useState(!id);
+
 	const [product, setProduct] = useState(
 		id && selectedProduct
 			? toProductRequestObject(selectedProduct)
@@ -85,16 +86,24 @@ const SaveProduct = () => {
 			product.weight && product.weight >= 1000 ? WeightUnit.KG : WeightUnit.G,
 	});
 
-	// MARK: Effects
-	useEffect(() => {
-		if (id) {
-			dispatch(fetchProductByIdStart(id));
-		}
-	}, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+	const [saving, setSaving] = useState(false);
 
+	// MARK: Effects
 	useEffect(() => {
 		dispatch(fetchCategoriesStart());
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (id) {
+			if (saving && selectedProduct) {
+				window.confirm('product saved!, would you like to view it?')
+					? navigate(`/products/${id}`)
+					: navigate('/');
+			} else {
+				dispatch(fetchProductByIdStart(id));
+			}
+		}
+	}, [id, selectedProduct, saving]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		const multiplier = weight.unit === WeightUnit.KG ? 1000 : 1;
@@ -165,6 +174,7 @@ const SaveProduct = () => {
 
 	const handleSubmit = () => {
 		dispatch(saveProductStart({ product, id }));
+		setSaving(true);
 	};
 
 	const handleRemoveImage = (src: string) => {
@@ -205,7 +215,7 @@ const SaveProduct = () => {
 
 	return (
 		<Form
-			title='Add Product'
+			title='Products'
 			buttonText='save'
 			onSubmit={handleSubmit}
 			buttonDisabled={

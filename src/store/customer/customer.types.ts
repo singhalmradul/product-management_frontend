@@ -4,7 +4,7 @@ export type Customer = {
 	gstin: string;
 	email: string;
 	phoneNumber: string;
-	desciption: string;
+	description: string;
 };
 
 export type CustomerRequestObject = {
@@ -12,5 +12,16 @@ export type CustomerRequestObject = {
 	gstin: string;
 	email: string;
 	phoneNumber: string;
-	desciption: string;
+	description: string;
 };
+
+export type CustomerState = {
+	customer: Customer | null;
+	customers: Customer[];
+	isLoading: boolean;
+	error: Error | null;
+};
+
+export const toCustomerRequestObject = (customer: Customer): CustomerRequestObject => {
+	return customer;
+}

@@ -1,5 +1,5 @@
 import { createSlice, UnknownAction } from '@reduxjs/toolkit';
-import Product, { ProductRequestObject, ProductState } from './product.types';
+import { Product, ProductRequestObject, ProductState } from './product.types';
 
 const initialState: ProductState = {
 	products: [],
@@ -49,7 +49,7 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.products = action.payload;
 		},
-		fetchProductsFailure(state, action: { payload: Error }) {
+		fetchProductsFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -63,7 +63,7 @@ const productSlice = createSlice({
 			state.product = action.payload;
 			state.products = addProduct(state.products, action.payload);
 		},
-		saveProductFailure(state, action: { payload: Error }) {
+		saveProductFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -76,7 +76,7 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.product = action.payload;
 		},
-		fetchProductByIdFailure(state, action: { payload: Error }) {
+		fetchProductByIdFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -89,7 +89,7 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.products = action.payload;
 		},
-		searchProductsFailure(state, action: { payload: Error }) {
+		searchProductsFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -102,7 +102,7 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.product = null;
 		},
-		deleteProductFailure(state, action: { payload: Error }) {
+		deleteProductFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -112,19 +112,19 @@ const productSlice = createSlice({
 export const {
 	fetchProductsStart,
 	fetchProductsSuccess,
-	fetchProductsFailure,
+	fetchProductsFailed,
 	saveProductStart,
 	saveProductSuccess,
-	saveProductFailure,
+	saveProductFailed,
 	fetchProductByIdStart,
 	fetchProductByIdSuccess,
-	fetchProductByIdFailure,
+	fetchProductByIdFailed,
 	searchProductsStart,
 	searchProductsSuccess,
-	searchProductsFailure,
+	searchProductsFailed,
 	deleteProductStart,
 	deleteProductSuccess,
-	deleteProductFailure,
+	deleteProductFailed,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

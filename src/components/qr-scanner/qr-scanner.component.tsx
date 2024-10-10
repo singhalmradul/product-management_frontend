@@ -22,9 +22,7 @@ const QRScanner = ({ onScan }: QRScannerProps) => {
 	}, [onScan]);
 
 	return (
-		<div>
 			<div id='qr-scanner'></div>
-		</div>
 	);
 };
 
