@@ -1,4 +1,4 @@
-import Product from '../../store/product/product.types';
+import { Product } from '../../store/product/product.types';
 
 import { searchProductsStart } from '../../store/product/product.slice';
 
@@ -7,7 +7,7 @@ import {
 	selectProducts,
 } from '../../store/product/product.selector';
 
-import Search from '../../components/search/search.component';
+import Search from '../search/search.component';
 
 import { SearchResult } from './product-search.styles';
 

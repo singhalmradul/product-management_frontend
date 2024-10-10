@@ -35,15 +35,17 @@ export const NavigationLink = styled(NavLink)`
 	text-decoration: none;
 	font-size: 16px;
 	padding: 5px;
+    border-radius: 5px;
+    box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+
 
 	&.active {
-		border: 1px solid;
-		border-radius: 5px;
+        box-shadow: none;
 	}
 
 	&:hover {
-        transform: scale(1.1);
-		color: #fcc;
+        box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
 	}
 
 	@media (max-width: 600px) {

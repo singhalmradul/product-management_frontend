@@ -6,6 +6,8 @@ const styles =`
     margin: 10px 5px;
     border: none;
     border-radius: 4px;
+    width: 100%;
+    max-width: 600px;
     background: var(--theme, #997bff);
     background-size: var(--theme-background-size);
     animation: var(--theme-animation);
@@ -13,9 +15,11 @@ const styles =`
     cursor: pointer;
     font-size: 16px;
     text-align: center;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.2);
 
     &:hover {
-    background-color: #9956b3;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     &:disabled {

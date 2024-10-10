@@ -73,7 +73,7 @@ const orderSlice = createSlice({
 			state.isLoading = false;
 			state.products.push(action.payload);
 		},
-		addProductFailure(state, action: { payload: Error }) {
+		addProductFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
@@ -95,7 +95,7 @@ export const {
 	setDate,
 	addProductStart,
 	addProductSuccess,
-	addProductFailure,
+	addProductFailed,
 	removeProduct,
 	modifyQuantityAmount,
 	modifyQuantityUnit,

@@ -1,7 +1,4 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import ProductsPage from '../products-page/products-page.component';
-import SaveProduct from '../save-product/save-product.component';
-import ProductDetails from '../product-details/product-details.component';
 import CategoriesPage from '../categories-page/categories-page.component';
 import SaveCategory from '../save-category/save-category.component';
 import CategoryDetails from '../category-details/category-details.component';

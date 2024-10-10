@@ -1,5 +1,6 @@
 import { createSlice, UnknownAction } from '@reduxjs/toolkit';
-import Category, {
+import {
+	Category,
 	CategoryRequestObject,
 	CategoryState,
 } from './category.types';

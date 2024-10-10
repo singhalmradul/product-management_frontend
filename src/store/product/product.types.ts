@@ -1,7 +1,7 @@
-import Category from '../category/category.types';
+import { Category } from '../category/category.types';
 import { ObjectWithId, QuantityUnit } from '../types';
 
-type Product = ObjectWithId & {
+export type Product = ObjectWithId & {
 	code: string;
 	dimensions: {
 		length: number | null;
@@ -43,10 +43,5 @@ export type ProductState = {
 export const toProductRequestObject = (
 	product: Product
 ): ProductRequestObject => {
-	const categories = product.categories.map(
-		(category) => category as ObjectWithId
-	);
-	return { ...product, categories, newImages: [] };
+	return { ...product, newImages: [] };
 };
-
-export default Product;

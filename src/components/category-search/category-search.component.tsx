@@ -1,6 +1,6 @@
 import Search from '../../components/search/search.component';
 
-import Category from '../../store/category/category.types';
+import { Category } from '../../store/category/category.types';
 
 import { searchCategoriesStart } from '../../store/category/category.slice';
 
@@ -9,11 +9,14 @@ import {
 	selectCategoryIsLoading,
 } from '../../store/category/category.selector';
 
-import { SearchResult } from './category-search.styles';
+import { CategoryName, SearchResult } from './category-search.styles';
+import Button from '../../components/button/button.component';
 
 const SearchResultComponent = ({ id, name }: Category) => (
-	<SearchResult key={id} to={id}>
-		{name}
+	<SearchResult key={id} >
+		<CategoryName to={id}> {name}
+		</CategoryName>
+	 <Button onClick={() => window.alert('not implemented')}>products</Button>
 	</SearchResult>
 );
 

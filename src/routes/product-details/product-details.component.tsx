@@ -16,6 +16,7 @@ import Spinner from '../../components/spinner/spinner.component';
 import Detail from '../../components/detail/detail.component';
 import ImagePreview from '../../components/image-preview/image-preview.component';
 import Button from '../../components/button/button.component';
+import Page from '../../components/page/page.component';
 
 const ProductDetails = () => {
 	const dispatch = useDispatch();
@@ -25,23 +26,23 @@ const ProductDetails = () => {
 	const product = useSelector(selectProduct);
 	const isLoading = useSelector(selectProductIsLoading);
 
-	const [isDelete, setIsDelete] = useState(false);
+	const [deleting, setDeleting] = useState(false);
 
 	useEffect(() => {
 		if (id && product?.id !== id) {
-			if (isDelete) {
+			if (deleting) {
 				navigate('/');
 			} else {
 				dispatch(fetchProductByIdStart(id));
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [id, product, isDelete]);
+	}, [id, product, deleting]);
 
 	const handleDelete = () => {
 		if (window.confirm('Are you sure you want to delete this product?')) {
 			dispatch(deleteProductStart(id!));
-			setIsDelete(true);
+			setDeleting(true);
 		}
 	};
 
@@ -50,8 +51,7 @@ const ProductDetails = () => {
 	}
 
 	return (
-		<div>
-			<h1>Product Details</h1>
+		<Page title='Product Details'>
 			<Detail label='Code' value={product.code} />
 			<Detail label='Name' value={product.name} />
 			<Detail label='Weight' value={product.weightString} />
@@ -70,7 +70,7 @@ const ProductDetails = () => {
 			<ImagePreview images={product.images} />
 			<Button linkTo='edit'>Edit</Button>
 			<Button onClick={handleDelete}>Delete</Button>
-		</div>
+		</Page>
 	);
 };
 

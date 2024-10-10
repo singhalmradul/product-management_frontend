@@ -21,23 +21,23 @@ const CategoryDetails = () => {
 	const category = useSelector(selectCategory);
 	const isLoading = useSelector(selectCategoryIsLoading);
 
-	const [isDelete, setIsDelete] = useState(false);
+	const [deleting, setDeleting] = useState(false);
 
 	useEffect(() => {
 		if (id && category?.id !== id) {
-			if (isDelete) {
+			if (deleting) {
 				navigate('/');
 			} else {
 				dispatch(fetchCategoryByIdStart(id));
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [id, category, isDelete]);
+	}, [id, category, deleting]);
 
 	const handleDelete = () => {
 		if (window.confirm('Are you sure you want to delete this category?')) {
 			dispatch(deleteCategoryStart(id!));
-			setIsDelete(true);
+			setDeleting(true);
 		}
 	};
 

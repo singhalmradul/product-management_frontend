@@ -1,6 +1,6 @@
 import { ObjectWithId, QuantityUnit } from '../types';
 
-type Category = ObjectWithId & {
+export type Category = ObjectWithId & {
 	name: string;
 	unitPreference: QuantityUnit;
 	images: string[];
@@ -28,5 +28,3 @@ export type CategoryState = {
 	readonly isLoading: boolean;
 	readonly error: Error | null;
 };
-
-export default Category;

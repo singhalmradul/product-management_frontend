@@ -5,14 +5,14 @@ import {
 	fetchProductById,
 	saveProduct,
 	searchProducts,
-} from '../../utilities/backend.utilitiy';
+} from '../../utilities/backend/product-backend.utility';
 import {
-	saveProductFailure,
+	saveProductFailed,
 	saveProductStart,
 	SaveProductStartAction,
 	saveProductSuccess,
-	fetchProductByIdFailure,
-	fetchProductsFailure,
+	fetchProductByIdFailed,
+	fetchProductsFailed,
 	fetchProductsStart,
 	fetchProductsSuccess,
 	fetchProductByIdStart,
@@ -21,7 +21,7 @@ import {
 	searchProductsStart,
 	SearchProductsStartAction,
 	deleteProductSuccess,
-	deleteProductFailure,
+	deleteProductFailed,
 	DeleteProductStartAction,
 	deleteProductStart,
 } from './product.slice';
@@ -32,7 +32,7 @@ const fetchProductsAsync = function* () {
 		const products = yield* call(fetchAllProducts);
 		yield put(fetchProductsSuccess(products));
 	} catch (error) {
-		yield put(fetchProductsFailure(error as Error));
+		yield put(fetchProductsFailed(error as Error));
 	}
 };
 
@@ -41,7 +41,7 @@ const saveProductAsync = function* ({ payload }: SaveProductStartAction) {
 		const product = yield* call(saveProduct, payload.product, payload.id);
 		yield put(saveProductSuccess(product));
 	} catch (error) {
-		yield put(saveProductFailure(error as Error));
+		yield put(saveProductFailed(error as Error));
 	}
 };
 
@@ -50,7 +50,7 @@ const fetchProductAsync = function* ({ payload: id }: FetchProductStartAction) {
 		const product = yield* call(fetchProductById, id);
 		yield put(fetchProductByIdSuccess(product));
 	} catch (error) {
-		yield put(fetchProductByIdFailure(error as Error));
+		yield put(fetchProductByIdFailed(error as Error));
 	}
 };
 
@@ -61,7 +61,7 @@ const searchProductsAsync = function* ({
 		const products = yield* call(searchProducts, query);
 		yield put(fetchProductsSuccess(products));
 	} catch (error) {
-		yield put(fetchProductsFailure(error as Error));
+		yield put(fetchProductsFailed(error as Error));
 	}
 };
 
@@ -70,7 +70,7 @@ const deleteProductAsync = function* ({ payload: id }: DeleteProductStartAction)
 		yield* call(deleteProduct, id);
 		yield put(deleteProductSuccess(id));
 	} catch (error) {
-		yield put(deleteProductFailure(error as Error));
+		yield put(deleteProductFailed(error as Error));
 	}
 }
 

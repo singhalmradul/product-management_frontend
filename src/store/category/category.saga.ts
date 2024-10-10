@@ -5,7 +5,7 @@ import {
 	fetchAllCategories,
 	fetchCategoryById,
 	searchCategories
-} from '../../utilities/backend.utilitiy';
+} from '../../utilities/backend/category-backend.utility';
 import {
 	saveCategoryFailed,
 	saveCategoryStart,

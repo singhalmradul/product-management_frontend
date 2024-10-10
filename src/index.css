@@ -21,21 +21,21 @@ a {
 	box-sizing: border-box;
 
 	&::-webkit-scrollbar {
-		height: 8px; /* Adjust the height of the scrollbar */
-		width: 8px; /* Adjust the width of the scrollbar */
+		height: 8px;
+		width: 8px;
 	}
 
 	&::-webkit-scrollbar-track {
-		background: none; /* Background color of the scrollbar track */
+		background: none;
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background: #888; /* Color of the scrollbar thumb */
-		border-radius: 10px; /* Rounded corners for the thumb */
+		background: #888;
+		border-radius: 10px;
 	}
 
 	&::-webkit-scrollbar-thumb:hover {
-		background: #555; /* Color of the scrollbar thumb on hover */
+		background: #555;
 	}
 }
 
@@ -44,12 +44,12 @@ a {
 		circle,
 		#ff9999,
 		#ff7399,
-		#dddb99,
-		#48dd99,
-		#99ddd5,
-		#992bdd,
-		#7a99dd,
-		#dd99e6
+		#eeea88,
+		#48ff99,
+		#99ffd5,
+		#992bff,
+		#7a99ff,
+		#ff99e6
 	);
 	--theme-color: #997bff;
 	--theme-background-size: 1000% 1000%;
