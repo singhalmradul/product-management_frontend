@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
 	CustomerRequestObject,
@@ -21,6 +21,8 @@ import WithLabel from '../../components/with-label/with-label.component';
 
 const SaveCustomer = () => {
 	const { id } = useParams();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const INITIAL_CATEGORY_STATE: CustomerRequestObject = {
 		name: '',
@@ -30,7 +32,6 @@ const SaveCustomer = () => {
 		description: '',
 	};
 
-	const dispatch = useDispatch();
 
 	const selectedCustomer = useSelector(selectCustomer);
 
@@ -40,11 +41,21 @@ const SaveCustomer = () => {
 			: INITIAL_CATEGORY_STATE
 	);
 
+	const [saving, setSaving] = useState(false);
+
 	useEffect(() => {
 		if (id) {
 			dispatch(fetchCustomerByIdStart(id));
 		}
 	}, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (saving && selectedCustomer) {
+			window.confirm('Customer saved! Would you like to view it?')
+				? navigate(`/customers/${id}`)
+				: navigate('/');
+		}
+	}, [saving, selectedCustomer, id]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleChange = (
 		event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -55,14 +66,15 @@ const SaveCustomer = () => {
 
 	const handleSubmit = () => {
 		dispatch(saveCustomerStart({ customer, id }));
+		setSaving(true);
 	};
 
 	return (
 		<Form
-			title='Add Customer'
-			buttonText='add'
+			title='Save Customer'
+			buttonText='save'
 			onSubmit={handleSubmit}
-			buttonDisabled={!customer.name}
+			buttonDisabled={!customer.name.trim()}
 		>
 			<TextInput
 				label='Name'
@@ -90,7 +102,6 @@ const SaveCustomer = () => {
 						name='phoneNumber'
 						onChange={handleChange}
 						value={customer.phoneNumber}
-						size={10}
 					/>
 				}
 			/>

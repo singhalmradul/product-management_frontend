@@ -2,7 +2,7 @@ import Search from '../../components/search/search.component';
 
 import { Category } from '../../store/category/category.types';
 
-import { searchCategoriesStart } from '../../store/category/category.slice';
+import { resetCategories, searchCategoriesStart } from '../../store/category/category.slice';
 
 import {
 	selectCategories,
@@ -27,6 +27,7 @@ const CategorySearch = () => {
 			resultsSelector={selectCategories}
 			isLoadingSelector={selectCategoryIsLoading}
 			searchAction={searchCategoriesStart}
+			resetAction={resetCategories}
 			searchResultComponent={SearchResultComponent}
 		/>
 	);

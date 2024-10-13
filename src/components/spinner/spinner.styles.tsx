@@ -1,13 +1,16 @@
 import styled from 'styled-components';
 
 export const SpinnerOverlay = styled.div`
-  height: 60vh;
+  min-height: 100px;
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
   background-color: 0.8);
 `;
+
 
 export const SpinnerContainer = styled.div`
   display: inline-block;

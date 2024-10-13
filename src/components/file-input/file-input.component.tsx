@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FileInputContainer, Input, Label } from './file-input.styles';
-import { randomId, snakeCase } from '../../utilities/helper.utility';
+import { snakeCase } from '../../utilities/helper.utility';
 import ImagePreview from '../image-preview/image-preview.component';
 
 type FileInutProps = Omit<
@@ -64,7 +64,7 @@ const FileInput = ({
 		}
 	};
 
-	const id = `${snakeCase(label)}_${randomId()}`;
+	const id = `${snakeCase(label)}`;
 	return (
 		<FileInputContainer>
 			<Label htmlFor={id}>{label}</Label>

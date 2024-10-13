@@ -5,7 +5,7 @@ export const ProductCardContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 200px;
+    width: 100%;
     padding: 10px;
     margin: 10px;
     border: 1px solid #ccc;

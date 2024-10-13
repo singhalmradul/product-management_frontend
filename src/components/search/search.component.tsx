@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useState } from 'react';
+import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	MessageContainer,
@@ -16,7 +16,13 @@ type SearchProps<T> = {
 	resultsSelector: (state: RootState) => T[];
 	isLoadingSelector: (state: RootState) => boolean;
 	searchAction: (query: string) => UnknownAction & { payload: string };
-	searchResultComponent: (item: T) => ReactNode;
+	resetAction: () => UnknownAction;
+	searchResultComponent: (
+		item: T,
+		additionalProps?: Record<string, unknown>
+	) => ReactNode;
+	showEmptyMessage?: boolean;
+	additionalProps?: Record<string, unknown>;
 };
 
 const Search = <T,>({
@@ -24,12 +30,21 @@ const Search = <T,>({
 	resultsSelector,
 	isLoadingSelector,
 	searchAction,
+	resetAction,
 	searchResultComponent,
+	additionalProps,
+	showEmptyMessage = true,
 }: SearchProps<T>) => {
 	const [query, setQuery] = useState('');
 	const results = useSelector(resultsSelector);
 	const isLoading = useSelector(isLoadingSelector);
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		return () => {
+			dispatch(resetAction());
+		};
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value;
@@ -49,12 +64,13 @@ const Search = <T,>({
 			/>
 			{results.length > 0 && (
 				<SearchResults>
-					{results.map((result) => searchResultComponent(result))}
+					{results.map((result) => searchResultComponent(result, additionalProps))}
 				</SearchResults>
 			)}
 			{isLoading ? (
 				<Spinner />
 			) : (
+				showEmptyMessage &&
 				results.length === 0 && (
 					<MessageContainer>
 						{query.trim().length > 0 ? (

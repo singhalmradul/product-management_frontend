@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import Home from './routes/home/home.component';
-import QrOrderGenerator from './routes/qr-order-generator/qr-order-generator.component';
+import QrOrderGenerator from './routes/save-order/save-order.component';
 import NavigationBar from './routes/navigation-bar/navigation-bar.component';
 import Products from './routes/products/products.component';
 import Categories from './routes/categories/categories.component';
