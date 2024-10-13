@@ -95,15 +95,17 @@ const SaveProduct = () => {
 
 	useEffect(() => {
 		if (id) {
-			if (saving && selectedProduct) {
-				window.confirm('product saved!, would you like to view it?')
-					? navigate(`/products/${id}`)
-					: navigate('/');
-			} else {
-				dispatch(fetchProductByIdStart(id));
-			}
+			dispatch(fetchProductByIdStart(id));
 		}
-	}, [id, selectedProduct, saving]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (saving && selectedProduct) {
+			window.confirm('Product saved! Would you like to view it?')
+				? navigate(`/products/${id}`)
+				: navigate('/');
+		}
+	}, [saving, selectedProduct, id]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		const multiplier = weight.unit === WeightUnit.KG ? 1000 : 1;

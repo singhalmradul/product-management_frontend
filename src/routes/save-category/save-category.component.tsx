@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { QuantityUnit } from '../../store/types';
 import {
@@ -22,6 +22,8 @@ import { selectCategory } from '../../store/category/category.selector';
 
 const SaveCategory = () => {
 	const { id } = useParams();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { KG, PCS, BOXES } = QuantityUnit;
 
 	const INITIAL_CATEGORY_STATE: CategoryRequestObject = {
@@ -32,9 +34,9 @@ const SaveCategory = () => {
 		description: '',
 	};
 
-	const dispatch = useDispatch();
-
 	const selectedCategory = useSelector(selectCategory);
+
+	const [saving, setSaving] = useState(false);
 
 	const [category, setCategory] = useState<CategoryRequestObject>(
 		id && selectedCategory
@@ -47,6 +49,14 @@ const SaveCategory = () => {
 			dispatch(fetchCategoryByIdStart(id));
 		}
 	}, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		if (saving && selectedCategory) {
+			window.confirm('Category saved! Would you like to view it?')
+				? navigate(`/categories/${id}`)
+				: navigate('/');
+		}
+	}, [saving, selectedCategory, id]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleChange = (
 		event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -61,6 +71,7 @@ const SaveCategory = () => {
 
 	const handleSubmit = () => {
 		dispatch(saveCategoryStart({ category, id }));
+		setSaving(true);
 	};
 
 	const handleRemoveImage = (src: string) => {

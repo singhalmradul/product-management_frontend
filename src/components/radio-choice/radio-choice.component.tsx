@@ -1,6 +1,6 @@
 import { ChangeEvent, ReactNode } from 'react';
-import { randomId, snakeCase } from '../../utilities/helper.utility';
-import { ChoicesContainer, Heading, Input, Label } from './radio-choice.styles';
+import { snakeCase } from '../../utilities/helper.utility';
+import { Choice, ChoicesContainer, Heading, Input, Label } from './radio-choice.styles';
 
 type RadioChoiceProps<T extends string> = {
 	name: string;
@@ -25,9 +25,9 @@ const RadioChoice = <T extends string>({
 			<ChoicesContainer>
 				{preChoiceElement}
 				{choices.map((choice) => {
-					const id = `${snakeCase(label)}_${snakeCase(choice)}_${randomId()}`;
+					const id = `${snakeCase(label)}_${snakeCase(choice)}`;
 					return (
-						<div key={choice}>
+						<Choice key={choice}>
 							<Input
 								type='radio'
 								name={name}
@@ -37,7 +37,7 @@ const RadioChoice = <T extends string>({
 								onChange={onChoiceChange}
 							/>
 							<Label htmlFor={id}>{choice}</Label>
-						</div>
+						</Choice>
 					);
 				})}
 			</ChoicesContainer>

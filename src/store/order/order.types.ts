@@ -1,10 +1,11 @@
 import { Product } from '../product/product.types';
+import { QuantityUnit } from '../types';
 
 export type OrderProduct = {
 	product: Product;
 	quantity: {
-		amount: number;
-		unit: string;
+		amount: number | null;
+		unit: QuantityUnit;
 	};
 };
 

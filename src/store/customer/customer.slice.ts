@@ -111,6 +111,11 @@ const customerSlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		},
+		resetCustomers(state) {
+			state.isLoading = false;
+			state.error = null;
+			state.customers = [];
+		}
 	},
 });
 
@@ -130,6 +135,7 @@ export const {
 	fetchCustomerByIdStart,
 	fetchCustomerByIdSuccess,
 	fetchCustomerByIdFailed,
+	resetCustomers,
 } = customerSlice.actions;
 
 export const customerReducer = customerSlice.reducer;

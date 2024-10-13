@@ -16,6 +16,10 @@ export const FormContainer = styled.form`
 		padding: 10px;
 		max-width: 90vw;
 	}
+
+	@media (min-width: 768px) {
+		width: 50vw;
+	}
 `;
 
 export const Title = styled.h1`

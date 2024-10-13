@@ -106,6 +106,11 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		},
+		resetProducts(state) {
+			state.isLoading = false;
+			state.error = null;
+			state.products = [];
+		}
 	},
 });
 
@@ -125,6 +130,7 @@ export const {
 	deleteProductStart,
 	deleteProductSuccess,
 	deleteProductFailed,
+	resetProducts,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

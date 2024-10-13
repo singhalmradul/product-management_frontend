@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import debounce from 'lodash.debounce';
@@ -24,19 +24,31 @@ type ProductCardProps = {
 const ProductCard = ({
 	orderProduct: {
 		product: { id, name, code, unitPreference },
-		quantity,
+		quantity: { amount, unit },
 	},
 }: ProductCardProps) => {
 	const dispatch = useDispatch();
 
+	const { KG, PCS, BOXES } = QuantityUnit;
+
+	const [quantityAmount, setQuantityAmount] = useState(amount);
+
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const handleQuantityChange = useCallback(
-		debounce((event: ChangeEvent<HTMLInputElement>) => {
-			const amount = Number(event.target.value);
+	const setAmount = useCallback(
+		debounce((amount: number) => {
 			dispatch(modifyQuantityAmount({ id, amount }));
 		}, 300),
 		[]
 	);
+
+	useEffect(() => {
+		quantityAmount && setAmount(quantityAmount);
+	}, [amount]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const handleQuantityChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const amount = event.target.value ? Number(event.target.value) : null;
+		setQuantityAmount(amount);
+	};
 
 	const handleUnitChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const unit = event.target.value as QuantityUnit;
@@ -52,12 +64,16 @@ const ProductCard = ({
 			<ProductInfo>
 				{name} ({code})
 			</ProductInfo>
-			<NumberInput placeholder='quantity' onChange={handleQuantityChange} />
-			<RadioChoice
-				choices={[QuantityUnit.KG, QuantityUnit.PCS, QuantityUnit.BOXES]}
+			<NumberInput
+				placeholder='quantity'
+				onChange={handleQuantityChange}
+				value={quantityAmount}
+			/>
+			<RadioChoice<QuantityUnit>
+				choices={[KG, PCS, BOXES]}
 				label='Unit'
 				name={`unit_${id}`}
-				selectedChoice={unitPreference}
+				selectedChoice={unit ?? unitPreference}
 				onChoiceChange={handleUnitChange}
 			/>
 			<Button onClick={handleRemove}>remove</Button>

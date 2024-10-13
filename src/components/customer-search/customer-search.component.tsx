@@ -8,23 +8,52 @@ import {
 } from '../../store/customer/customer.selector';
 
 import { CustomerName, SearchResult } from './customer-search.styles';
-import { searchCustomersStart } from '../../store/customer/customer.slice';
+import {
+	resetCustomers,
+	searchCustomersStart,
+} from '../../store/customer/customer.slice';
 
-const SearchResultComponent = ({ id, name }: Customer) => (
-	<SearchResult key={id} >
-		<CustomerName to={id}> {name}
+type SearchResultComponentProps = {
+	customer: Customer;
+	onResultClick?: (customer: Customer) => void;
+};
+
+const SearchResultComponent = ({
+	customer,
+	onResultClick,
+}: SearchResultComponentProps) => (
+	<SearchResult
+		key={customer.id}
+		onClick={onResultClick ? () => onResultClick(customer) : undefined}
+	>
+		<CustomerName to={onResultClick ? '#' : customer.id}>
+			{customer.name}
 		</CustomerName>
 	</SearchResult>
 );
 
-const CustomerSearch = () => {
+const searchResultComponent =
+	(onResultClick?: (customer: Customer) => void) => (customer: Customer) =>
+		<SearchResultComponent customer={customer} onResultClick={onResultClick} />;
+
+type CustomerSearchProps = {
+	showEmptyMessage?: boolean;
+	onResultClick?: (customer: Customer) => void;
+};
+
+const CustomerSearch = ({
+	showEmptyMessage,
+	onResultClick,
+}: CustomerSearchProps) => {
 	return (
 		<Search<Customer>
 			name='customers'
 			resultsSelector={selectCustomers}
 			isLoadingSelector={selectCustomerIsLoading}
 			searchAction={searchCustomersStart}
-			searchResultComponent={SearchResultComponent}
+			resetAction={resetCustomers}
+			searchResultComponent={searchResultComponent(onResultClick)}
+			showEmptyMessage={showEmptyMessage}
 		/>
 	);
 };

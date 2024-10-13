@@ -8,7 +8,7 @@ type WithLabelProps = {
 };
 
 const WithLabel = ({ label, element }: WithLabelProps) => {
-    const id = `${snakeCase(label)}_${crypto.getRandomValues(new Uint16Array(1))[0]}`;
+    const id = `${snakeCase(label)}`;
     return (
         <WithLabelContainer>
             <Label htmlFor={id}>{label}</Label>

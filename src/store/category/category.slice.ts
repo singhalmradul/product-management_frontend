@@ -111,6 +111,11 @@ const categorySlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		},
+		resetCategories(state) {
+			state.isLoading = false;
+			state.error = null;
+			state.categories = [];
+		}
 	},
 });
 
@@ -130,6 +135,7 @@ export const {
 	fetchCategoryByIdStart,
 	fetchCategoryByIdSuccess,
 	fetchCategoryByIdFailed,
+	resetCategories,
 } = categorySlice.actions;
 
 export const categoryReducer = categorySlice.reducer;
