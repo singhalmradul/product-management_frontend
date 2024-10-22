@@ -1,12 +1,17 @@
 import { createSlice, UnknownAction } from '@reduxjs/toolkit';
-import { OrderProduct, OrderState } from './order.types';
+import { Order, OrderProduct, OrderState } from './order.types';
 import { QuantityUnit } from '../types';
+import { Product } from '../product/product.types';
+import { Customer } from '../customer/customer.types';
 
 // MARK: - Initial State
 const initialState: OrderState = {
-	customer: '',
-	date: new Date().toISOString().split('T')[0],
-	products: [],
+	orders: [],
+	order: {
+		customer: null,
+		date: new Date().toISOString().split('T')[0],
+		products: [],
+	},
 	isLoading: false,
 	error: null,
 };
@@ -41,9 +46,28 @@ const modifyUnit = (
 			: orderProduct
 	);
 
+const addProductToOrder = (
+	products: OrderProduct[],
+	product: Product
+): OrderProduct[] => {
+	products.push({
+		product,
+		quantity: { amount: 1, unit: product.unitPreference },
+	});
+	return products;
+};
+
 // MARK: - Types
-export type AddProductStartAction = UnknownAction & {
+type SetCustomerAction = UnknownAction & {
+	payload: Customer;
+};
+
+export type AddProductByIdStartAction = UnknownAction & {
 	payload: string;
+};
+
+type AddProductAction = UnknownAction & {
+	payload: Product;
 };
 
 type ModifyQuantityAmountAction = UnknownAction & {
@@ -54,37 +78,75 @@ type ModifyQuantityUnitAction = UnknownAction & {
 	payload: { id: string; unit: QuantityUnit };
 };
 
+type SearchOrdersStartAction = UnknownAction & {
+	payload: string;
+};
+
 // MARK: - Slice
 const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
-		setCustomer(state, action: { payload: string }) {
-			state.customer = action.payload;
+		setCustomer(state, action: SetCustomerAction) {
+			state.order.customer = action.payload;
 		},
 		setDate(state, action: { payload: string }) {
-			state.date = action.payload;
+			state.order.date = action.payload;
 		},
-		addProductStart(state, action: AddProductStartAction) {
+		addProductByIdStart(state, action: AddProductByIdStartAction) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		addProduct(state, action: AddProductAction) {
+			state.order = {
+				...state.order,
+				products: state.order?.products || [],
+			};
+			state.order.products = addProductToOrder(
+				state.order.products,
+				action.payload
+			);
 			state.isLoading = true;
 			state.error = null;
 		},
 		addProductSuccess(state, action: { payload: OrderProduct }) {
 			state.isLoading = false;
-			state.products.push(action.payload);
+			state.order.products.push(action.payload);
 		},
 		addProductFailed(state, action: { payload: Error }) {
 			state.isLoading = false;
 			state.error = action.payload;
 		},
 		removeProduct(state, action: { payload: string }) {
-			state.products = filterProduct(state.products, action.payload);
+			state.order.products = filterProduct(
+				state.order.products,
+				action.payload
+			);
 		},
 		modifyQuantityAmount(state, action: ModifyQuantityAmountAction) {
-			state.products = modifyAmount(state.products, action.payload);
+			state.order.products = modifyAmount(state.order.products, action.payload);
 		},
 		modifyQuantityUnit(state, action: ModifyQuantityUnitAction) {
-			state.products = modifyUnit(state.products, action.payload);
+			state.order.products = modifyUnit(state.order.products, action.payload);
+		},
+		searchOrdersStart(state, action: SearchOrdersStartAction) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		searchOrdersSuccess(state, action: { payload: Order[] }) {
+			state.orders = action.payload;
+			state.isLoading = false;
+			state.error = null;
+		},
+		searchOrdersFailed(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
+		resetOrders(state) {
+			state.orders = [];
+			state.order = initialState.order;
+			state.isLoading = false;
+			state.error = null;
 		},
 	},
 });
@@ -93,12 +155,17 @@ const orderSlice = createSlice({
 export const {
 	setCustomer,
 	setDate,
-	addProductStart,
+	addProductByIdStart,
+	addProduct,
 	addProductSuccess,
 	addProductFailed,
 	removeProduct,
 	modifyQuantityAmount,
 	modifyQuantityUnit,
+	searchOrdersStart,
+	searchOrdersSuccess,
+	searchOrdersFailed,
+	resetOrders,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

@@ -7,8 +7,7 @@ const Home = () => {
 			<Button linkTo='products'>products</Button>
 			<Button linkTo='categories'>categories</Button>
 			<Button linkTo='customers'>customers</Button>
-			<Button onClick={() => window.alert('not implemented')}>orders</Button>
-			<Button linkTo='/features/scan'>scan</Button>
+			<Button linkTo='orders'>orders</Button>
 		</Page>
 	);
 };

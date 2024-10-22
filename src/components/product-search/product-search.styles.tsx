@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const SearchResult = styled(Link)`
+export const SearchResult = styled.div`
     padding: 10px;
     border-bottom: 1px solid #eee;
     font-size: 14px;
@@ -14,4 +14,8 @@ export const SearchResult = styled(Link)`
     &:last-child {
         border-bottom: none;
     }
+`;
+
+export const ProductName = styled(Link)`
+    width: 100%;
 `;

@@ -3,18 +3,28 @@ import { RootState } from '../store';
 
 const selectOrderSlice = (state: RootState) => state.order;
 
-export const selectMerchant = createSelector(
+export const selectOrders = createSelector(
 	[selectOrderSlice],
+	(slice) => slice.orders
+);
+
+export const selectOrder = createSelector(
+	[selectOrderSlice],
+	(slice) => slice.order
+);
+
+export const selectCustomer = createSelector(
+	[selectOrder],
 	(slice) => slice.customer
 );
 
 export const selectDate = createSelector(
-	[selectOrderSlice],
+	[selectOrder],
 	(slice) => slice.date
 );
 
 export const selectProducts = createSelector(
-	[selectOrderSlice],
+	[selectOrder],
 	(slice) => slice.products
 );
 
