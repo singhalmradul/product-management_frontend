@@ -1,40 +1,14 @@
 {
-	"customer": {
-		"id": "3",
-		"name": "John Smith",
-		"phoneNumber": "1234567890",
-		"email": "smithjohn@email.io",
-		"gstin": "GSTIN123458",
-		"description": "John Smith is a good customer"
-	},
-	"date": "2024-10-14",
-	"products": [
-		{
-			"product": {
-				"id": "1",
-				"code": "P001",
-				"name": "Apple",
-				"categories": [
-					{
-						"id": "1",
-						"name": "Fruits",
-						"unitPreference": "KG",
-						"images": ["https://i.ibb.co/Ksfwpms/bear-high-five.png"],
-						"description": "Fruits are good for health"
-					}
-				],
-				"weight": 1,
-				"dimensions": { "length": 10, "width": 10, "height": 10 },
-				"images": ["https://i.ibb.co/pz2dWyC/cat-high-five.jpg"],
-				"description": "Apple is good for health",
-				"unitPreference": "KG",
-				"weightString": "1 g"
-			},
-			"quantity": { "amount": 1, "unit": "KG" }
-		}
-	],
-	"isLoading": false,
-	"error": null,
-	"orders": [],
-	"order": { "customer": null, "date": "2024-10-22", "products": [] }
+  "extends": [
+    "development"
+  ],
+  "hints": {
+    "axe/forms": [
+      "default",
+      {
+        "select-name": "off",
+        "label": "off"
+      }
+    ]
+  }
 }
