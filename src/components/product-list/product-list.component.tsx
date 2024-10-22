@@ -1,16 +1,20 @@
-import { useSelector } from 'react-redux';
-import { selectProducts } from '../../store/order/order.selector';
+import { OrderProduct } from '../../store/order/order.types';
 import ProductCard from '../product-card/product-card.component';
 import { ProductListContainer } from './product-list.styles';
 
-const ProductList = () => {
-	const products = useSelector(selectProducts);
+type ProductListProps = {
+	products: OrderProduct[];
+	handleChange: (orderProduct: OrderProduct) => void;
+};
+
+const ProductList = ({ products, handleChange }: ProductListProps) => {
 	return (
 		<ProductListContainer>
 			{products.map((orderProduct) => (
 				<ProductCard
 					key={orderProduct.product.id}
 					orderProduct={orderProduct}
+					handleChange={handleChange}
 				/>
 			))}
 		</ProductListContainer>

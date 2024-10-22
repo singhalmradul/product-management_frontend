@@ -27,6 +27,7 @@ export type OrderRequestObject = {
 export type OrderState = {
 	readonly orders: Order[];
 	readonly order: OrderRequestObject;
+	readonly orderProduct: OrderProduct | null;
 	readonly isLoading: boolean;
 	readonly error: Error | null;
 };

@@ -1,11 +1,14 @@
 import { call, put, takeLatest, all, debounce } from 'typed-redux-saga/macro';
+
 import {
 	deleteProduct,
 	fetchAllProducts,
+	fetchProductByCode,
 	fetchProductById,
 	saveProduct,
 	searchProducts,
 } from '../../utilities/backend/product-backend.utility';
+
 import {
 	saveProductFailed,
 	saveProductStart,
@@ -24,6 +27,9 @@ import {
 	deleteProductFailed,
 	DeleteProductStartAction,
 	deleteProductStart,
+	fetchProductByCodeFailed,
+	fetchProductByCodeSuccess,
+	fetchProductByCodeStart,
 } from './product.slice';
 
 // MARK: Workers
@@ -45,12 +51,25 @@ const saveProductAsync = function* ({ payload }: SaveProductStartAction) {
 	}
 };
 
-const fetchProductAsync = function* ({ payload: id }: FetchProductStartAction) {
+const fetchProductByIdAsync = function* ({
+	payload: id,
+}: FetchProductStartAction) {
 	try {
 		const product = yield* call(fetchProductById, id);
 		yield put(fetchProductByIdSuccess(product));
 	} catch (error) {
 		yield put(fetchProductByIdFailed(error as Error));
+	}
+};
+
+const fetchProductByCodeAsync = function* ({
+	payload: code,
+}: FetchProductStartAction) {
+	try {
+		const product = yield* call(fetchProductByCode, code);
+		yield put(fetchProductByCodeSuccess(product));
+	} catch (error) {
+		yield put(fetchProductByCodeFailed(error as Error));
 	}
 };
 
@@ -65,14 +84,16 @@ const searchProductsAsync = function* ({
 	}
 };
 
-const deleteProductAsync = function* ({ payload: id }: DeleteProductStartAction) {
+const deleteProductAsync = function* ({
+	payload: id,
+}: DeleteProductStartAction) {
 	try {
 		yield* call(deleteProduct, id);
 		yield put(deleteProductSuccess(id));
 	} catch (error) {
 		yield put(deleteProductFailed(error as Error));
 	}
-}
+};
 
 // MARK: Watchers
 const onFetchProducts = function* () {
@@ -83,8 +104,12 @@ const onAddProduct = function* () {
 	yield* takeLatest(saveProductStart, saveProductAsync);
 };
 
-const onFetchProduct = function* () {
-	yield* takeLatest(fetchProductByIdStart, fetchProductAsync);
+const onFetchProductById = function* () {
+	yield* takeLatest(fetchProductByIdStart, fetchProductByIdAsync);
+};
+
+const onFetchProductByCode = function* () {
+	yield* takeLatest(fetchProductByCodeStart, fetchProductByCodeAsync);
 };
 
 const onSearchProducts = function* () {
@@ -100,7 +125,8 @@ const productSaga = function* () {
 	yield* all([
 		call(onFetchProducts),
 		call(onAddProduct),
-		call(onFetchProduct),
+		call(onFetchProductById),
+		call(onFetchProductByCode),
 		call(onSearchProducts),
 		call(onDeleteProduct),
 	]);

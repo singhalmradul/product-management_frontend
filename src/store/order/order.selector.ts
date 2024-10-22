@@ -13,19 +13,14 @@ export const selectOrder = createSelector(
 	(slice) => slice.order
 );
 
-export const selectCustomer = createSelector(
-	[selectOrder],
-	(slice) => slice.customer
-);
-
-export const selectDate = createSelector(
-	[selectOrder],
-	(slice) => slice.date
-);
-
 export const selectProducts = createSelector(
 	[selectOrder],
 	(slice) => slice.products
+);
+
+export const selectOrderProduct = createSelector(
+	[selectOrderSlice],
+	(slice) => slice.orderProduct
 );
 
 export const selectOrderIsLoading = createSelector(

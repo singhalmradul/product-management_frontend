@@ -15,6 +15,10 @@ export const fetchProductById = async (id: string) => {
 	return response.data;
 };
 
+export const fetchProductByCode = async (code: string) => {
+	const response = await axios.get<Product>(`${productsUrl}/code/${code}`);
+	return response.data;
+};
 
 export const createProduct = async (
 	product: ProductRequestObject
