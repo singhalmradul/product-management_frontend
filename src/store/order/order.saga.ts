@@ -1,13 +1,13 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga/macro';
 import {
 	addProductFailed,
-	addProductStart,
-	AddProductStartAction,
+	addProductByIdStart,
+	AddProductByIdStartAction,
 	addProductSuccess,
 } from './order.slice';
 import { fetchProductById } from '../../utilities/backend/product-backend.utility';
 
-const addProductAsync = function* ({ payload: id }: AddProductStartAction) {
+const addProductAsync = function* ({ payload: id }: AddProductByIdStartAction) {
 	try {
 		const product = yield* call(fetchProductById, id);
 		yield put(
@@ -22,7 +22,7 @@ const addProductAsync = function* ({ payload: id }: AddProductStartAction) {
 };
 
 const onAddProductStart = function* () {
-	yield* takeLatest(addProductStart, addProductAsync);
+	yield* takeLatest(addProductByIdStart, addProductAsync);
 };
 
 const orderSaga = function* () {

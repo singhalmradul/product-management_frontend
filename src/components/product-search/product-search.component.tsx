@@ -1,6 +1,9 @@
 import { Product } from '../../store/product/product.types';
 
-import { resetProducts, searchProductsStart } from '../../store/product/product.slice';
+import {
+	resetProducts,
+	searchProductsStart,
+} from '../../store/product/product.slice';
 
 import {
 	selectProductIsLoading,
@@ -9,19 +12,40 @@ import {
 
 import Search from '../search/search.component';
 
-import { SearchResult } from './product-search.styles';
+import { ProductName, SearchResult } from './product-search.styles';
 
-const SearchResultComponent = ({ id, name, code, weightString }: Product) => (
-	<SearchResult key={id} to={id}>
-		{name} - {code} - {weightString}
+type SearchResultComponentProps = {
+	product: Product;
+	onResultClick?: (product: Product) => void;
+};
+
+const SearchResultComponent = ({
+	product,
+	onResultClick,
+}: SearchResultComponentProps) => (
+	<SearchResult
+		key={product.id}
+		onClick={onResultClick ? () => onResultClick(product) : undefined}
+	>
+		<ProductName to={onResultClick ? '#' : product.id}>
+			{product.name} - {product.code} - {product.weightString}
+		</ProductName>
 	</SearchResult>
 );
 
+const searchResultComponent =
+	(onResultClick?: (product: Product) => void) => (product: Product) =>
+		<SearchResultComponent product={product} onResultClick={onResultClick} />;
 
-type ProductSearchProps = { showEmptyMessage?: boolean };
+type ProductSearchProps = {
+	showEmptyMessage?: boolean;
+	onResultClick?: (product: Product) => void;
+};
 
-const ProductSearch = ({ showEmptyMessage }: ProductSearchProps) => {
-
+const ProductSearch = ({
+	showEmptyMessage,
+	onResultClick,
+}: ProductSearchProps) => {
 	return (
 		<Search<Product>
 			name='products'
@@ -29,7 +53,7 @@ const ProductSearch = ({ showEmptyMessage }: ProductSearchProps) => {
 			isLoadingSelector={selectProductIsLoading}
 			searchAction={searchProductsStart}
 			resetAction={resetProducts}
-			searchResultComponent={SearchResultComponent}
+			searchResultComponent={searchResultComponent(onResultClick)}
 			showEmptyMessage={showEmptyMessage}
 		/>
 	);
