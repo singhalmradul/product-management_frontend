@@ -1,32 +1,27 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga/macro';
 import {
-	addProductFailed,
-	addProductByIdStart,
-	AddProductByIdStartAction,
-	addProductSuccess,
+	SaveOrderStartAction,
+	saveOrderSuccess,
+	saveOrderFailed,
+	saveOrderStart,
 } from './order.slice';
-import { fetchProductById } from '../../utilities/backend/product-backend.utility';
+import { saveOrder } from '../../utilities/backend/order-backend.utility';
 
-const addProductAsync = function* ({ payload: id }: AddProductByIdStartAction) {
+const saveOrderAsync = function* ({ payload }: SaveOrderStartAction) {
 	try {
-		const product = yield* call(fetchProductById, id);
-		yield put(
-			addProductSuccess({
-				product,
-				quantity: { amount: 1, unit: product.unitPreference },
-			})
-		);
+		const savedOrder = yield* call(saveOrder, payload.order, payload.id);
+		yield put(saveOrderSuccess(savedOrder));
 	} catch (error) {
-		yield put(addProductFailed(error as Error));
+		yield put(saveOrderFailed(error as Error));
 	}
 };
 
-const onAddProductStart = function* () {
-	yield* takeLatest(addProductByIdStart, addProductAsync);
+const onSaveOrderStart = function* () {
+	yield* takeLatest(saveOrderStart, saveOrderAsync);
 };
 
 const orderSaga = function* () {
-	yield* all([call(onAddProductStart)]);
+	yield* all([call(onSaveOrderStart)]);
 };
 
 export default orderSaga;

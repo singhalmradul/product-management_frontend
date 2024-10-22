@@ -80,6 +80,19 @@ const productSlice = createSlice({
 			state.isLoading = false;
 			state.error = action.payload;
 		},
+		fetchProductByCodeStart(state, action: FetchProductStartAction) {
+			state.product = null;
+			state.isLoading = true;
+			state.error = null;
+		},
+		fetchProductByCodeSuccess(state, action: { payload: Product }) {
+			state.isLoading = false;
+			state.product = action.payload;
+		},
+		fetchProductByCodeFailed(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
 		searchProductsStart(state, action: SearchProductsStartAction) {
 			state.products = [];
 			state.isLoading = true;
@@ -124,6 +137,9 @@ export const {
 	fetchProductByIdStart,
 	fetchProductByIdSuccess,
 	fetchProductByIdFailed,
+	fetchProductByCodeStart,
+	fetchProductByCodeSuccess,
+	fetchProductByCodeFailed,
 	searchProductsStart,
 	searchProductsSuccess,
 	searchProductsFailed,
