@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Customer } from '../../store/customer/customer.types';
@@ -10,8 +10,6 @@ import {
 
 import { resetCustomers } from '../../store/customer/customer.slice';
 
-import { selectOrder } from '../../store/order/order.selector';
-
 import ProductList from '../../components/product-list/product-list.component';
 import QrScanner from '../../components/qr-scanner/qr-scanner.component';
 import TextInput from '../../components/text-input/text-input.component';
@@ -21,11 +19,13 @@ import Form from '../../components/form/form.component';
 import CustomerSearch from '../../components/customer-search/customer-search.component';
 import ProductSearch from '../../components/product-search/product-search.component';
 
-import { DateInput } from './save-order.styles';
+import { DateInput, Download } from './save-order.styles';
 import { fetchProductByCodeStart } from '../../store/product/product.slice';
 import { selectProduct } from '../../store/product/product.selector';
 import { saveOrderStart } from '../../store/order/order.slice';
 import { QuantityUnit } from '../../store/types';
+import { selectOrder } from '../../store/order/order.selector';
+import { useNavigate } from 'react-router-dom';
 
 const SaveOrder = () => {
 
@@ -35,14 +35,25 @@ const SaveOrder = () => {
 		products: [],
 	};
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const product = useSelector(selectProduct);
+	const selectedOrder = useSelector(selectOrder);
 
 	const [productCode, setProductCode] = useState<string | null>(null);
 
 	const [order, setOrder] = useState<OrderRequestObject>(INITIAL_ORDER_STATE);
 
 	const { customer } = order;
+
+	const downloadRef = useRef<HTMLAnchorElement>(null);
+
+	useEffect(() => {
+		if (selectedOrder?.pdf) {
+			downloadRef.current?.click();
+			navigate('/');
+		}
+	},[selectedOrder]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		dispatch(resetCustomers());
@@ -60,7 +71,6 @@ const SaveOrder = () => {
 			setProductCode(null);
 		}
 	}, [product]); // eslint-disable-line react-hooks/exhaustive-deps
-
 	const handleChange = (orderProduct: OrderProduct) => {
 		if (!orderProduct) {
 			return;
@@ -70,27 +80,28 @@ const SaveOrder = () => {
 			product,
 			quantity: { amount },
 		} = orderProduct;
-		const products = order.products;
-		let newProducts;
 
-		if (amount === -1) {
-			newProducts = products.filter(({ product: { id } }) => id !== product.id);
-			console.log('remove', newProducts);
-		} else if (products.some(({ product: { id } }) => id === product.id)) {
-			newProducts = products.map((item) => {
-				if (orderProduct.product.id === item.product.id) {
-					return orderProduct;
-				}
-				return item;
-			});
-			console.log('update', newProducts);
-		} else {
-			newProducts = [...products, orderProduct];
-			console.log('add', newProducts);
-		}
+		setOrder((prevOrder) => {
+			const products = prevOrder.products;
+			let newProducts;
 
-		setOrder({ ...order, products: newProducts });
+			if (amount === -1) {
+				newProducts = products.filter(({ product: { id } }) => id !== product.id);
+			} else if (products.some(({ product: { id } }) => id === product.id)) {
+				newProducts = products.map((item) => {
+					if (orderProduct.product.id === item.product.id) {
+						return orderProduct;
+					}
+					return item;
+				});
+			} else {
+				newProducts = [...products, orderProduct];
+			}
+
+			return { ...prevOrder, products: newProducts };
+		});
 	};
+
 
 	const handleScan = (decodedText: string) => {
 		setProductCode(decodedText);
@@ -149,6 +160,7 @@ const SaveOrder = () => {
 				<QrScanner onScan={handleScan} />
 				<ProductList products={order.products} handleChange={handleChange} />
 			</Form>
+			<Download href={selectedOrder?.pdf ?? '#'} download={`${order.date}_${order.customer?.name??''}.pdf` } ref={downloadRef} />
 		</Page>
 	);
 };

@@ -39,6 +39,14 @@ export const saveOrder = async (
 	return addOrder(order);
 };
 
+export const getOrderPdf = async (id: string): Promise<string> => {
+	const response = await axios.get<Blob>(`${ordersUrl}/${id}/pdf`, {
+		responseType: 'blob'
+	});
+	const url: string = window.URL.createObjectURL(response.data);
+	return url;
+};
+
 export const fetchOrderById = async (id: string) => {
 	const response = await axios.get<Order>(`${ordersUrl}/${id}`);
 	return response.data;

@@ -1,5 +1,5 @@
 export type ObjectWithId = {
-    id: string;
+	id: string;
 };
 
 export enum QuantityUnit {
@@ -10,5 +10,5 @@ export enum QuantityUnit {
 
 export enum WeightUnit {
 	KG = 'KG',
-	G = 'G'
+	G = 'G',
 }
