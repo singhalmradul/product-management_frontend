@@ -9,11 +9,7 @@ import {
 // MARK: - Initial State
 const initialState: OrderState = {
 	orders: [],
-	order: {
-		customer: null,
-		date: new Date().toISOString().split('T')[0],
-		products: [],
-	},
+	order: null,
 	orderProduct: null,
 	isLoading: false,
 	error: null,
@@ -42,7 +38,7 @@ const orderSlice = createSlice({
 			state.error = null;
 		},
 		saveOrderSuccess(state, action: { payload: Order }) {
-			state.orders.push(action.payload);
+			state.order = action.payload;
 			state.isLoading = false;
 			state.error = null;
 		},
@@ -68,7 +64,7 @@ const orderSlice = createSlice({
 		},
 		resetOrders(state) {
 			state.orders = [];
-			state.order = initialState.order;
+			state.order = null;
 			state.isLoading = false;
 			state.error = null;
 		},

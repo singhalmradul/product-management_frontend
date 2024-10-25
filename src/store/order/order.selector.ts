@@ -15,7 +15,7 @@ export const selectOrder = createSelector(
 
 export const selectProducts = createSelector(
 	[selectOrder],
-	(slice) => slice.products
+	(order) => order?.products ?? []
 );
 
 export const selectOrderProduct = createSelector(

@@ -7,3 +7,7 @@ export const DateInput = styled.input`
     border-radius: 4px;
     font-size: 16px;
 `;
+
+export const Download = styled.a`
+    display: none;
+`;

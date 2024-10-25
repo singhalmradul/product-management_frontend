@@ -1,5 +1,11 @@
 import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { UnknownAction } from '@reduxjs/toolkit';
+
+import { RootState } from '../../store/store';
+
+import Spinner from '../spinner/spinner.component';
+
 import {
 	MessageContainer,
 	SearchContainer,
@@ -7,9 +13,6 @@ import {
 	SearchInput,
 	SearchResults,
 } from './search.styles';
-import Spinner from '../spinner/spinner.component';
-import { RootState } from '../../store/store';
-import { UnknownAction } from '@reduxjs/toolkit';
 
 type SearchProps<T> = {
 	name: string;
