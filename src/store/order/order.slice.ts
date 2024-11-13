@@ -28,11 +28,41 @@ export type SaveOrderStartAction = UnknownAction & {
 	payload: { order: OrderRequestObject; id?: string };
 };
 
+export type FetchOrderByIdStart = UnknownAction & {
+	payload: string;
+}
+
 // MARK: - Slice
 const orderSlice = createSlice({
 	name: 'order',
 	initialState,
 	reducers: {
+		fetchAllOrdersStart(state) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		fetchAllOrdersSuccess(state, action: { payload: Order[] }) {
+			state.orders = action.payload;
+			state.isLoading = false;
+			state.error = null;
+		},
+		fetchAllOrdersFailed(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
+		fetchOrderByIdStart(state, action: FetchOrderByIdStart) {
+			state.isLoading = true;
+			state.error = null;
+		},
+		fetchOrderByIdSuccess(state, action: { payload: Order }) {
+			state.order = action.payload;
+			state.isLoading = false;
+			state.error = null;
+		},
+		fetchOrderByIdFailed(state, action: { payload: Error }) {
+			state.isLoading = false;
+			state.error = action.payload;
+		},
 		saveOrderStart(state, action: SaveOrderStartAction) {
 			state.isLoading = true;
 			state.error = null;
@@ -73,6 +103,12 @@ const orderSlice = createSlice({
 
 // MARK: - Actions
 export const {
+	fetchAllOrdersStart,
+	fetchAllOrdersSuccess,
+	fetchAllOrdersFailed,
+	fetchOrderByIdStart,
+	fetchOrderByIdSuccess,
+	fetchOrderByIdFailed,
 	saveOrderStart,
 	saveOrderSuccess,
 	saveOrderFailed,

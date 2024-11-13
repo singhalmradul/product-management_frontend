@@ -84,3 +84,7 @@ export const CheckboxLabel = styled.label`
 		font-size: 14px;
 	}
 `;
+
+export const Download = styled.a`
+    display: none;
+`;

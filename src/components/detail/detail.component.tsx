@@ -2,7 +2,7 @@ import { DetailContainer, DetailName, DetailValue } from './detail.styles';
 
 type DetailProps = {
 	label: string;
-	value: string | number | null;
+	value: string | number | null | undefined;
 	defaultValue?: string;
 };
 

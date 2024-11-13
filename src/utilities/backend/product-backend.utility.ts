@@ -65,3 +65,11 @@ export const searchProducts = async (query: string) => {
 export const deleteProduct = async (id: string) => {
 	await axios.delete(`${productsUrl}/${id}`);
 };
+
+export const getProductPdf = async (id: string): Promise<string> => {
+	const response = await axios.get<Blob>(`${productsUrl}/${id}/pdf`, {
+		responseType: 'blob'
+	});
+	const url: string = window.URL.createObjectURL(response.data);
+	return url;
+};
