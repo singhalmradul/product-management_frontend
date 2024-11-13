@@ -15,6 +15,7 @@ export type Product = ObjectWithId & {
 	images: string[];
 	description: string | null;
 	categories: Category[];
+	pdf: string | null;
 };
 
 export type ProductRequestObject = {

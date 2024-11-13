@@ -5,6 +5,7 @@ import {
 	fetchAllProducts,
 	fetchProductByCode,
 	fetchProductById,
+	getProductPdf,
 	saveProduct,
 	searchProducts,
 } from '../../utilities/backend/product-backend.utility';
@@ -45,7 +46,8 @@ const fetchProductsAsync = function* () {
 const saveProductAsync = function* ({ payload }: SaveProductStartAction) {
 	try {
 		const product = yield* call(saveProduct, payload.product, payload.id);
-		yield put(saveProductSuccess(product));
+		const pdf = yield* call(getProductPdf, product.id);
+		yield put(saveProductSuccess({ ...product, pdf }));
 	} catch (error) {
 		yield put(saveProductFailed(error as Error));
 	}
