@@ -28,7 +28,6 @@ import { selectOrder } from '../../store/order/order.selector';
 import { useNavigate } from 'react-router-dom';
 
 const SaveOrder = () => {
-
 	const INITIAL_ORDER_STATE: OrderRequestObject = {
 		customer: null,
 		date: new Date().toISOString().split('T')[0],
@@ -53,7 +52,7 @@ const SaveOrder = () => {
 			downloadRef.current?.click();
 			navigate('/');
 		}
-	},[selectedOrder]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [selectedOrder]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		dispatch(resetCustomers());
@@ -86,7 +85,9 @@ const SaveOrder = () => {
 			let newProducts;
 
 			if (amount === -1) {
-				newProducts = products.filter(({ product: { id } }) => id !== product.id);
+				newProducts = products.filter(
+					({ product: { id } }) => id !== product.id
+				);
 			} else if (products.some(({ product: { id } }) => id === product.id)) {
 				newProducts = products.map((item) => {
 					if (orderProduct.product.id === item.product.id) {
@@ -101,7 +102,6 @@ const SaveOrder = () => {
 			return { ...prevOrder, products: newProducts };
 		});
 	};
-
 
 	const handleScan = (decodedText: string) => {
 		setProductCode(decodedText);
@@ -160,7 +160,11 @@ const SaveOrder = () => {
 				<QrScanner onScan={handleScan} />
 				<ProductList products={order.products} handleChange={handleChange} />
 			</Form>
-			<Download href={selectedOrder?.pdf ?? '#'} download={`${order.date}_${order.customer?.name??''}.pdf` } ref={downloadRef} />
+			<Download
+				href={selectedOrder?.pdf ?? '#'}
+				download={`${order.date}_${order.customer?.name ?? ''}.pdf`}
+				ref={downloadRef}
+			/>
 		</Page>
 	);
 };
